@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="author" content="Newnorth Technology" />
+		<meta name="generator" content="Newnorth PHP Framework" />
+		<title>Newnorth Alerts</title>
+		<link href="http://fonts.googleapis.com/css?family=Oswald:700" rel="stylesheet" type="text/css">
+		<link href="/css/default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div class="Left">
+			<div id="Alerts"></div>
+		</div>
+		<div class="Right">
+			
+		</div>
+		<script language="javascript">
+			Priorities = {
+				Low: 1,
+				Medium: 2,
+				High: 3,
+			};
+
+			Sounds = {
+				Deactivated: new Audio("/sounds/deactivated.wav"),
+				ActivatedLow: new Audio("/sounds/activated-low.wav"),
+				ActivatedMedium: new Audio("/sounds/activated-medium.wav"),
+				ActivatedHigh: new Audio("/sounds/activated-high.wav"),
+				EscalatedMedium: new Audio("/sounds/escalated-medium.wav"),
+				EscalatedHigh: new Audio("/sounds/escalated-high.wav"),
+				DeescalatedLow: new Audio("/sounds/deescalated-low.wav"),
+				DeescalatedMedium: new Audio("/sounds/deescalated-medium.wav"),
+			};
+
+			function Alerts() {
+				/* Variables */
+
+				this.ivItems = [];
+
+				this.ivElement = document.getElementById("Alerts");
+			}
+
+			Alerts.prototype.Update = function() {
+				var time = new Date();
+
+				for(var i = 0; i < this.ivItems.length; ++i) {
+					this.ivItems[i].Update(time);
+				}
+			}
+
+			Alerts.prototype.Add = function(pvAlert) {
+				this.ivItems.push(pvAlert);
+	
+				this.ivElement.appendChild(pvAlert.ivElement);
+			}
+
+			function Alert(pvName, pvUrl, pvInterval) {
+				/* Variables */
+
+				this.ivName = pvName;
+
+				this.ivUrl = pvUrl;
+
+				this.ivInterval = pvInterval * 1000;
+
+				this.ivNextCheck = new Date();
+
+				this.ivPriority = 0;
+
+				this.ivOccurrences = 0;
+
+				this.ivLastOccurrence = null;
+
+				this.ivTimeElapsed = 0;
+
+				this.ivElement = document.createElement("div");
+				this.ivElement.className = "Alert";
+				this.ivElement.style.display = "none";
+				this.ivElement.innerHTML =
+					"<div class=\"Priority\"></div>" +
+					"<div class=\"Information\">" +
+						"<p class=\"Name\">" + this.ivName + "</p>" +
+						"<p class=\"Description\">Not responding on connection attempts.</p>" +
+					"</div>" +
+					"<div class=\"Occurrences\">" +
+						"<p class=\"Key\">Occurences</p>" +
+						"<p class=\"Value\">0</p>" +
+					"</div>" +
+					"<div class=\"Time\">" +
+						"<p class=\"Key\">Time elapsed</p>" +
+						"<p class=\"Value\">00:00:00</p>" +
+					"</div>";
+
+				this.ivPriorityElement = this.ivElement.childNodes[0];
+
+				this.ivDescriptionElement = this.ivElement.childNodes[1].childNodes[1];
+
+				this.ivOccurrencesElement = this.ivElement.childNodes[2].childNodes[1];
+
+				this.ivTimeElapsedElement = this.ivElement.childNodes[3].childNodes[1];
+			}
+
+			Alert.prototype.Update = function(pvTime) {
+				this.UpdateRefresh(pvTime);
+
+				this.UpdateTimeElapsed(pvTime);
+			}
+
+			Alert.prototype.UpdateRefresh = function(pvTime) {
+				if(this.ivNextCheck < pvTime) {
+					var request = new XMLHttpRequest();
+
+					request.ivAlert = this;
+
+					request.open("POST", this.ivUrl, true);
+
+					request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+					request.onreadystatechange = function() {
+						if(this.readyState === 4) {
+							try {
+								var data = JSON.parse(this.responseText);
+
+								if(data === null) {
+									this.ivAlert.Deactivate();
+								}
+								else {
+									this.ivAlert.Activate(data);
+								}
+							}
+							catch(exception) {
+								
+							}
+
+							this.ivAlert.ivNextCheck.setTime(pvTime.getTime() + this.ivAlert.ivInterval);
+						}
+					};
+
+					request.send(null);
+
+					this.ivNextCheck.setTime(pvTime.getTime() + 15000);
+				}
+			}
+
+			Alert.prototype.UpdateTimeElapsed = function(pvTime) {
+				if(0 < this.ivPriority) {
+					this.ivTimeElapsed = Math.floor((pvTime - this.ivLastOccurrence) / 1000);
+
+					var seconds = this.ivTimeElapsed % 60;
+
+					var minutes = Math.floor(this.ivTimeElapsed / 60) % 60;
+
+					var hours = Math.floor(this.ivTimeElapsed / 3600);
+
+					this.ivTimeElapsedElement.textContent = (9 < hours ? hours : "0" + hours) + ":" + (9 < minutes ? minutes : "0" + minutes) + ":" + (9 < seconds ? seconds : "0" + seconds);
+				}
+			}
+
+			Alert.prototype.Activate = function(pvData) {
+				var priority = Priorities[pvData.priority];
+
+				if(this.ivPriority === 0) {
+					switch(priority) {
+						case Priorities.Low: {
+							Sounds.ActivatedLow.play();
+							break;
+						}
+						case Priorities.Medium: {
+							Sounds.ActivatedMedium.play();
+							break;
+						}
+						case Priorities.High: {
+							Sounds.ActivatedHigh.play();
+							break;
+						}
+					}
+
+					this.ivPriority = priority;
+
+					++this.ivOccurrences;
+
+					this.ivLastOccurrence = new Date();
+
+					this.ivElement.style.display = "block";
+
+					this.ivOccurrencesElement.textContent = this.ivOccurrences;
+				}
+				else if(this.ivPriority < priority) {
+					switch(priority) {
+						case Priorities.Medium: {
+							Sounds.EscalatedMedium.play();
+							break;
+						}
+						case Priorities.High: {
+							Sounds.EscalatedHigh.play();
+							break;
+						}
+					}
+
+					this.ivPriority = priority;
+				}
+				else if(priority < this.ivPriority) {
+					switch(priority) {
+						case Priorities.Low: {
+							Sounds.DeescalatedLow.play();
+							break;
+						}
+						case Priorities.Medium: {
+							Sounds.DeescalatedMedium.play();
+							break;
+						}
+					}
+
+					this.ivPriority = priority;
+				}
+
+				this.ivPriorityElement.className = "Priority " + pvData.priority + "Priority";
+
+				this.ivDescriptionElement.innerHTML = pvData.description;
+			}
+
+			Alert.prototype.Deactivate = function() {
+				if(0 < this.ivPriority) {
+					Sounds.Deactivated.play();
+
+					this.ivPriority = 0;
+
+					this.ivElement.style.display = "none";
+				}
+			}
+
+			Alerts = new Alerts();
+
+			setInterval(function(){Alerts.Update()}, 1000);
+		</script>
+	</body>
+</html>

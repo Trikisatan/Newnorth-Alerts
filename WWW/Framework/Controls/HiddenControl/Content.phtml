@@ -1,0 +1,13 @@
+<input<?
+	if(isset($Control->_Parameters['Id'])) {
+		?> id="<?=$Control->_Parameters['Id']?>"<?
+	}
+	if(isset($Control->_Parameters['Name'])) {
+		?> name="<?=$Control->_Parameters['Name']?>"<?
+	}
+	?> type="hidden"<?
+	if(isset($Control->_Parameters['Value'])) {
+		?> value="<?=$Control->_Parameters['Value']?>"<?
+	}
+	?> Newnorth:Control="HiddenControl"<?
+?>/>

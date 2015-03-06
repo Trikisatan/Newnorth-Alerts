@@ -1,0 +1,30 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+<Files *.*>
+deny from all
+</Files>
+
+<Files index.php>
+allow from all
+</Files>
+
+<Files *.css>
+allow from all
+</Files>
+
+<Files *.js>
+allow from all
+</Files>
+
+<Files *.png>
+allow from all
+</Files>
+
+<Files *.wav>
+allow from all
+</Files>
