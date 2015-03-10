@@ -71,21 +71,41 @@ class Translations implements \ArrayAccess {
 	/* Methods */
 
 	private function TryLoadIniFile() {
-		if(isset(Application::$Files['Translations'][0]))
-		{
-			$FilePath = Application::$Files['Translations'].$this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
+		if(isset($GLOBALS['Parameters']['Locale'][0])) {
+			if(isset(Application::$Files['Translations'][0]))
+			{
+				$FilePath = Application::$Files['Translations'].$this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
+			}
+			else if($this->Owner instanceof Layout && isset(Application::$Files['Layouts'][0]))
+			{
+				$FilePath = Application::$Files['Layouts'].$this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
+			}
+			else if($this->Owner instanceof Page && isset(Application::$Files['Pages'][0]))
+			{
+				$FilePath = Application::$Files['Pages'].$this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
+			}
+			else
+			{
+				$FilePath = $this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
+			}
 		}
-		else if($this->Owner instanceof Layout && isset(Application::$Files['Layouts'][0]))
-		{
-			$FilePath = Application::$Files['Layouts'].$this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
-		}
-		else if($this->Owner instanceof Page && isset(Application::$Files['Pages'][0]))
-		{
-			$FilePath = Application::$Files['Pages'].$this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
-		}
-		else
-		{
-			$FilePath = $this->Directory.'Translations.'.$GLOBALS['Parameters']['Locale'].'.ini';
+		else {
+			if(isset(Application::$Files['Translations'][0]))
+			{
+				$FilePath = Application::$Files['Translations'].$this->Directory.'Translations.ini';
+			}
+			else if($this->Owner instanceof Layout && isset(Application::$Files['Layouts'][0]))
+			{
+				$FilePath = Application::$Files['Layouts'].$this->Directory.'Translations.ini';
+			}
+			else if($this->Owner instanceof Page && isset(Application::$Files['Pages'][0]))
+			{
+				$FilePath = Application::$Files['Pages'].$this->Directory.'Translations.ini';
+			}
+			else
+			{
+				$FilePath = $this->Directory.'Translations.ini';
+			}
 		}
 
 		if(!file_exists($FilePath)) {
@@ -138,6 +158,19 @@ class Translations implements \ArrayAccess {
 			else {
 				$Offset = $Match[0][1] + strlen($Match[0][0]);
 			}
+		}
+	}
+
+	public function IsTranslated($Contents, &$Translations) {
+		if(0 < preg_match_all('/%([a-zA-Z0-9_\/]+?)(?:\("(.*?)"\))?%/', $Contents, $Matches)) {
+			$Translations = $Matches[0];
+
+			return false;
+		}
+		else {
+			$Translations = [];
+
+			return true;
 		}
 	}
 }
