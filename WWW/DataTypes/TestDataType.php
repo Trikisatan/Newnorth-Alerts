@@ -9,8 +9,6 @@ class TestDataType extends DataType {
 
 	public $Title;
 
-	public $FailureCount;
-
 	public $TimeLastFailed;
 
 	public $State;
@@ -25,6 +23,8 @@ class TestDataType extends DataType {
 
 	public $IsExecuting;
 
+	public $Url;
+
 	/* Magic methods */
 
 	public function __construct($Data) {
@@ -34,10 +34,6 @@ class TestDataType extends DataType {
 
 		if(isset($Data['Title'])) {
 			$this->Title = $Data['Title'];
-		}
-
-		if(isset($Data['FailureCount'])) {
-			$this->FailureCount = (int)$Data['FailureCount'];
 		}
 
 		if(isset($Data['TimeLastFailed'])) {
@@ -66,6 +62,10 @@ class TestDataType extends DataType {
 
 		if(isset($Data['IsExecuting'])) {
 			$this->IsExecuting = $Data['IsExecuting'] === '1';
+		}
+
+		if(isset($Data['URL'])) {
+			$this->Url = $Data['URL'];
 		}
 	}
 }
