@@ -1,6 +1,9 @@
 <?
 use \Framework\Newnorth\Application;
 use \Framework\Newnorth\DataType;
+use \Framework\Newnorth\DbUpdateQuery;
+use \Framework\Newnorth\DbAnd;
+use \Framework\Newnorth\DbEqualTo;
 
 class TestDataType extends DataType {
 	/* Variables */
@@ -67,6 +70,28 @@ class TestDataType extends DataType {
 		if(isset($Data['URL'])) {
 			$this->Url = $Data['URL'];
 		}
+	}
+
+	/* Methods */
+
+ 	public function SetIsExecuting($Value) {
+		$Value = (bool)$Value;
+
+		$Query = new DbUpdateQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddChange('`IsExecuting`', $Value);
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->EqualTo('`Id`', $this->Id);
+
+		$Connection = Application::GetDbConnection('Default');
+
+		$Connection->Update($Query);
+
+		$this->IsExecuting = $Value;
 	}
 }
 ?>
