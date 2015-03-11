@@ -114,6 +114,26 @@ class TestDataType extends DataType {
 		$this->StatePriorityLevel = $Value;
 	}
 
+ 	public function SetTimeLastFailed($Value) {
+		$Value = (int)$Value;
+
+		$Query = new DbUpdateQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddChange('`TimeLastFailed`', $Value);
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->EqualTo('`Id`', $this->Id);
+
+		$Connection = Application::GetDbConnection('Default');
+
+		$Connection->Update($Query);
+
+		$this->TimeLastFailed = $Value;
+	}
+
  	public function SetIsExecuting($Value) {
 		$Value = (bool)$Value;
 
