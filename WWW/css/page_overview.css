@@ -73,6 +73,32 @@
 	white-space: pre;
 }
 
+#Wall>.Alert>.NextExecution
+{
+	padding: 8px 16px;
+	text-align: center;
+	height: 100%;
+}
+
+#Wall>.Alert>.NextExecution>span
+{
+	display: block;
+	color: #a0a0a0;
+	font-family: Arial;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+#Wall>.Alert>.NextExecution>b
+{
+	display: block;
+	color: #e0e0e0;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
 #Wall>.Alert>.Time
 {
 	padding: 8px 16px;
