@@ -34,7 +34,7 @@ class TestDataManager extends DataManager {
 		return $this->_FindAll($Query);
 	}
 
-	public function FindAllByState($State, $SortColumn = '`TimeFailed`', $SortOrder = DB_DESC) {
+	public function FindAllByState($State, $SortColumn = '`TimeLastFailed`', $SortOrder = DB_DESC) {
 		$Query = new DbSelectQuery();
 
 		$Query->AddSource('Test');

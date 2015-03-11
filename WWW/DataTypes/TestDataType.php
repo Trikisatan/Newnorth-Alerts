@@ -11,9 +11,19 @@ class TestDataType extends DataType {
 
 	public $FailureCount;
 
-	public $TimeFailed;
+	public $TimeLastFailed;
 
 	public $State;
+
+	public $StateDescription;
+
+	public $StatePriorityLevel;
+
+	public $TimeLastExecuted;
+
+	public $ExecutionInterval;
+
+	public $IsExecuting;
 
 	/* Magic methods */
 
@@ -30,12 +40,32 @@ class TestDataType extends DataType {
 			$this->FailureCount = (int)$Data['FailureCount'];
 		}
 
-		if(isset($Data['TimeFailed'])) {
-			$this->TimeFailed = (int)$Data['TimeFailed'];
+		if(isset($Data['TimeLastFailed'])) {
+			$this->TimeLastFailed = (int)$Data['TimeLastFailed'];
 		}
 
 		if(isset($Data['State'])) {
 			$this->State = $Data['State'];
+		}
+
+		if(isset($Data['StateDescription'])) {
+			$this->StateDescription = $Data['StateDescription'];
+		}
+
+		if(isset($Data['StatePriorityLevel'])) {
+			$this->StatePriorityLevel = $Data['StatePriorityLevel'];
+		}
+
+		if(isset($Data['TimeLastExecuted'])) {
+			$this->TimeLastExecuted = (int)$Data['TimeLastExecuted'];
+		}
+
+		if(isset($Data['ExecutionInterval'])) {
+			$this->ExecutionInterval = (int)$Data['ExecutionInterval'];
+		}
+
+		if(isset($Data['IsExecuting'])) {
+			$this->IsExecuting = $Data['IsExecuting'] === '1';
 		}
 	}
 }
