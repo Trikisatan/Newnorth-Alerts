@@ -14,6 +14,14 @@ class TestDataManager extends DataManager {
 
 	/* Methods */
 
+	public function Lock() {
+		$this->Connection->Lock(['Test' => 'WRITE']);
+	}
+
+	public function Unlock() {
+		$this->Connection->Unlock();
+	}
+
 	public function FindById($Id) {
 		$Query = new DbSelectQuery();
 
