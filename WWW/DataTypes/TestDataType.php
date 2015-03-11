@@ -74,6 +74,26 @@ class TestDataType extends DataType {
 
 	/* Methods */
 
+ 	public function SetState($Value) {
+		$Value = (string)$Value;
+
+		$Query = new DbUpdateQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddChange('`State`', '"'.$Value.'"');
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->EqualTo('`Id`', $this->Id);
+
+		$Connection = Application::GetDbConnection('Default');
+
+		$Connection->Update($Query);
+
+		$this->State = $Value;
+	}
+
  	public function SetStateDescription($Value) {
 		$Value = (string)$Value;
 
