@@ -47,5 +47,19 @@ class MessageDataManager extends DataManager {
 
 		return $this->_FindAll($Query);
 	}
+
+	public function FindAllHandled($SortColumn = '`PriorityLevel`', $SortOrder = DB_DESC) {
+		$Query = new DbSelectQuery();
+
+		$Query->AddSource('Message');
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->GreaterThan('`TimeSolved`', 0);
+
+		$Query->AddSort($SortColumn, $SortOrder);
+
+		return $this->_FindAll($Query);
+	}
 }
 ?>
