@@ -15,7 +15,7 @@ class TestsPage extends \Framework\Newnorth\Page {
 	}
 
 	public function Load() {
-		/*$TestDataManager = $GLOBALS['Application']->GetDataManager('Test');
+		$TestDataManager = $GLOBALS['Application']->GetDataManager('Test');
 
 		$Tests = $TestDataManager->FindAll();
 
@@ -30,8 +30,9 @@ class TestsPage extends \Framework\Newnorth\Page {
 				'IsExecuting' => $Test->IsExecuting,
 				'ExecutionInterval' => $Test->ExecutionInterval,
 				'TimeLastExecuted' => $Test->TimeLastExecuted,
+				'Url' => $Test->Url,
 			];
-		}*/
+		}
 	}
 
 	public function Execute() {
