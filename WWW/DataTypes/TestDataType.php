@@ -12,19 +12,19 @@ class TestDataType extends DataType {
 
 	public $Title;
 
-	public $TimeLastFailed;
-
 	public $State;
 
 	public $StateDescription;
 
 	public $StatePriorityLevel;
 
-	public $TimeLastExecuted;
+	public $TimeLastFailed;
+
+	public $IsExecuting;
 
 	public $ExecutionInterval;
 
-	public $IsExecuting;
+	public $TimeLastExecuted;
 
 	public $Url;
 
@@ -39,10 +39,6 @@ class TestDataType extends DataType {
 			$this->Title = $Data['Title'];
 		}
 
-		if(isset($Data['TimeLastFailed'])) {
-			$this->TimeLastFailed = (int)$Data['TimeLastFailed'];
-		}
-
 		if(isset($Data['State'])) {
 			$this->State = $Data['State'];
 		}
@@ -55,16 +51,20 @@ class TestDataType extends DataType {
 			$this->StatePriorityLevel = $Data['StatePriorityLevel'];
 		}
 
-		if(isset($Data['TimeLastExecuted'])) {
-			$this->TimeLastExecuted = (int)$Data['TimeLastExecuted'];
+		if(isset($Data['TimeLastFailed'])) {
+			$this->TimeLastFailed = (int)$Data['TimeLastFailed'];
+		}
+
+		if(isset($Data['IsExecuting'])) {
+			$this->IsExecuting = $Data['IsExecuting'] === '1';
 		}
 
 		if(isset($Data['ExecutionInterval'])) {
 			$this->ExecutionInterval = (int)$Data['ExecutionInterval'];
 		}
 
-		if(isset($Data['IsExecuting'])) {
-			$this->IsExecuting = $Data['IsExecuting'] === '1';
+		if(isset($Data['TimeLastExecuted'])) {
+			$this->TimeLastExecuted = (int)$Data['TimeLastExecuted'];
 		}
 
 		if(isset($Data['URL'])) {
@@ -73,6 +73,26 @@ class TestDataType extends DataType {
 	}
 
 	/* Methods */
+
+ 	public function SetStatePriorityLevel($Value) {
+		$Value = (string)$Value;
+
+		$Query = new DbUpdateQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddChange('`StatePriorityLevel`', '"'.$Value.'"');
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->EqualTo('`Id`', $this->Id);
+
+		$Connection = Application::GetDbConnection('Default');
+
+		$Connection->Update($Query);
+
+		$this->StatePriorityLevel = $Value;
+	}
 
  	public function SetIsExecuting($Value) {
 		$Value = (bool)$Value;
