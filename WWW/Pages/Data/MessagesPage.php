@@ -15,7 +15,21 @@ class MessagesPage extends \Framework\Newnorth\Page {
 	}
 
 	public function Load() {
-		
+		$MessageDataManager = $GLOBALS['Application']->GetDataManager('Message');
+
+		$Messages = $MessageDataManager->FindAll();
+
+		foreach($Messages as $Message) {
+			$this->Data[] = [
+				'Id' => $Message->Id,
+				'PriorityLevel' => $Message->PriorityLevel,
+				'Key' => $Message->Key,
+				'Title' => $Message->Title,
+				'Text' => $Message->Text,
+				'TimeSolved' => $Message->TimeSolved,
+				'TimeCreated' => $Message->TimeCreated,
+			];
+		}
 	}
 
 	public function Execute() {
