@@ -93,5 +93,25 @@ class TestDataType extends DataType {
 
 		$this->IsExecuting = $Value;
 	}
+
+ 	public function SetTimeLastExecuted($Value) {
+		$Value = (int)$Value;
+
+		$Query = new DbUpdateQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddChange('`TimeLastExecuted`', $Value);
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->EqualTo('`Id`', $this->Id);
+
+		$Connection = Application::GetDbConnection('Default');
+
+		$Connection->Update($Query);
+
+		$this->TimeLastExecuted = $Value;
+	}
 }
 ?>
