@@ -27,7 +27,7 @@ Update = function() {
 
 	Overview.Update(time);
 
-	setTimeout(Update, 100);
+	setTimeout(Update, 10);
 }
 
 Update_ExecuteTests = function(time) {
@@ -53,36 +53,47 @@ ExecuteTest = function(test) {
 
 	request.Test = test;
 
+	request.onreadystatechange = function() {
+		if(this.readyState === 4) {
+			var response;
+
+			try {
+				response = JSON.parse(request.responseText);
+			}
+			catch(exception) {
+				response = false;
+			}
+
+			if(response !== false) {
+				var state = this.Test.State;
+
+				this.Test.State = response.State;
+
+				this.Test.StatePriorityLevel = response.StatePriorityLevel;
+
+				this.Test.StateDescription = response.StateDescription;
+
+				this.Test.TimeLastFailed = response.TimeLastFailed;
+
+				this.Test.IsExecuting = response.IsExecuting;
+
+				this.Test.TimeLastExecuted = response.TimeLastExecuted;
+
+				if(this.Test.State !== state) {
+					if(this.Test.State === "OK") {
+						OnTestStateChangedToOK.Invoke(null, {From: state, Test: this.Test});
+					}
+					else if(this.Test.State === "FAILED") {
+						OnTestStateChangedToFAILED.Invoke(null, {From: state, Test: this.Test});
+					}
+				}
+			}
+		}
+	};
+
 	request.open("GET", "/execute-test/" + test.Id + "/", false);
 
 	request.send(null);
-
-	var response = JSON.parse(request.responseText);
-
-	if(response !== false) {
-		var state = test.State;
-
-		test.State = response.State;
-
-		test.StatePriorityLevel = response.StatePriorityLevel;
-
-		test.StateDescription = response.StateDescription;
-
-		test.TimeLastFailed = response.TimeLastFailed;
-
-		test.IsExecuting = response.IsExecuting;
-
-		test.TimeLastExecuted = response.TimeLastExecuted;
-
-		if(test.State !== state) {
-			if(test.State === "OK") {
-				OnTestStateChangedToOK.Invoke(null, {From: state, Test: test});
-			}
-			else if(test.State === "FAILED") {
-				OnTestStateChangedToFAILED.Invoke(null, {From: state, Test: test});
-			}
-		}
-	}
 }
 
 window.addEventListener(

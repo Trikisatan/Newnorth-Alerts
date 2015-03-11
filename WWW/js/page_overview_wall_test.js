@@ -13,17 +13,23 @@ Overview.Wall.Test = function(id, test) {
 
 	this.NextExecutionElement = this.Element.childNodes[2].childNodes[1];
 
-	this.TimeElapsedElement = this.Element.childNodes[3].childNodes[1];
+	this.LoadingElement = this.Element.childNodes[3];
+
+	this.TimeElapsedElement = this.Element.childNodes[4].childNodes[1];
 }
 
 Overview.Wall.Test.LoadHtml = function() {
 	var request = new XMLHttpRequest();
 
-	request.open("GET", "/js/page_overview_wall_test.xml", false);
+	request.open("GET", "/js/page_overview_wall_test.html", false);
 
 	request.send(null);
 
-	this.Html = document.importNode(request.responseXML.childNodes[0], true);
+	this.Html = document.createElement("div");
+
+	this.Html.className = "Alert";
+
+	this.Html.innerHTML = request.responseText;
 }
 
 Overview.Wall.Test.prototype.Update = function(time) {
@@ -33,9 +39,9 @@ Overview.Wall.Test.prototype.Update = function(time) {
 }
 
 Overview.Wall.Test.prototype.UpdateTimeElapsed = function(time) {
-	var timeElapsed = Math.floor(time - this.Test.TimeLastFailed);
+	var timeElapsed = time - this.Test.TimeLastFailed;
 
-	var seconds = timeElapsed % 60;
+	var seconds = Math.floor(timeElapsed % 60);
 
 	var minutes = Math.floor(timeElapsed / 60) % 60;
 
@@ -45,13 +51,24 @@ Overview.Wall.Test.prototype.UpdateTimeElapsed = function(time) {
 }
 
 Overview.Wall.Test.prototype.UpdateNextExecution = function(time) {
-	var nextExecution = Math.ceil(this.Test.TimeLastExecuted + this.Test.ExecutionInterval - time);
+	if(this.Test.IsExecuting) {
+		this.NextExecutionElement.parentNode.style.display = "none";
 
-	var seconds = nextExecution % 60;
+		this.LoadingElement.style.display = "table-cell";
+	}
+	else {
+		var nextExecution = Math.max(0, this.Test.TimeLastExecuted + this.Test.ExecutionInterval - time);
 
-	var minutes = Math.floor(nextExecution / 60) % 60;
+		var seconds = Math.floor(nextExecution % 60);
 
-	var hours = Math.floor(nextExecution / 3600);
+		var minutes = Math.floor(nextExecution / 60) % 60;
 
-	this.NextExecutionElement.innerHTML = (9 < hours ? hours : "0" + hours) + ":" + (9 < minutes ? minutes : "0" + minutes) + ":" + (9 < seconds ? seconds : "0" + seconds);
+		var hours = Math.floor(nextExecution / 3600);
+
+		this.NextExecutionElement.innerHTML = (9 < hours ? hours : "0" + hours) + ":" + (9 < minutes ? minutes : "0" + minutes) + ":" + (9 < seconds ? seconds : "0" + seconds);
+
+		this.NextExecutionElement.parentNode.style.display = "table-cell";
+
+		this.LoadingElement.style.display = "none";
+	}
 }
