@@ -25,6 +25,16 @@ class ScheduledTaskDataManager extends DataManager {
 		return $this->_Find($Query);
 	}
 
+	public function FindAll($SortColumn = null, $SortOrder = null) {
+		$Query = new DbSelectQuery();
+
+		$Query->AddSource('ScheduledTask');
+
+		$Query->AddSort($SortColumn, $SortOrder);
+
+		return $this->_FindAll($Query);
+	}
+
 	public function FindAllExecuted($SortColumn = '`PriorityLevel`', $SortOrder = DB_DESC) {
 		$Query = new DbSelectQuery();
 
