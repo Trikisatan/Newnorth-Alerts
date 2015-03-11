@@ -24,6 +24,16 @@ class TestDataManager extends DataManager {
 		return $this->_Find($Query);
 	}
 
+	public function FindAll($SortColumn = null, $SortOrder = null) {
+		$Query = new DbSelectQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddSort($SortColumn, $SortOrder);
+
+		return $this->_FindAll($Query);
+	}
+
 	public function FindAllByState($State, $SortColumn = '`TimeFailed`', $SortOrder = DB_DESC) {
 		$Query = new DbSelectQuery();
 

@@ -1,0 +1,183 @@
+body
+{
+	margin: 0px auto;
+	padding: 16px 0px 0px 0px;
+	background: linear-gradient(to bottom, #404040 0%, #202020 100%);
+}
+
+
+#MainMenu
+{
+	display: table;
+	margin: 0px 0px 16px 0px;
+	width: 100%;
+}
+
+#MainMenu>*
+{
+	display: table-cell;
+	background: linear-gradient(to bottom, #80a000 0%, #608000 100%);
+	border-color: #a0c000 #406000 #406000 #a0c000;
+	border-style: solid;
+	border-width: 1px;
+	vertical-align: middle;
+	position: relative;
+	box-shadow: 0px 1px 2px #000000;
+}
+
+#MainMenu>.Left
+{
+	border-left: none;
+	width: 16px;
+	min-width: 16px;
+}
+
+#MainMenu>.Right
+{
+	border-right: none;
+	width: 16px;
+	min-width: 16px;
+}
+
+#MainMenu>.Link
+{
+	padding: 8px 16px;
+}
+
+#MainMenu>.Link>div
+{
+	display: table;
+	width: 100%;
+}
+
+#MainMenu>.Link>div>.Text
+{
+	display: table-cell;
+	padding-right: 16px;
+	vertical-align: middle;
+	width: 100%;
+}
+
+#MainMenu>.Link>div>.Text>b
+{
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+#MainMenu>.Link>div>.Text>span
+{
+	color: #202020;
+	font-family: Arial;
+	font-size: 12px;
+}
+
+#MainMenu>.Link>div>.Count
+{
+	display: table-cell;
+	background-color: #ffffff;
+	border-radius: 4px;
+	border-style: solid;
+	border-width: 1px;
+	color: #000000;
+	font-family: Arial;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 46px;
+	text-align: center;
+	overflow: hidden;
+	min-width: 48px;
+	max-width: 48px;
+	height: 48px;
+}
+
+#MainMenu>a.Link>div>.Count
+{
+	border-color: #406000 #a0c000 #a0c000 #406000;
+	box-shadow: 0px 1px 2px #000000 inset;
+}
+
+#MainMenu>div.Link
+{
+	background: none;
+	border: none;
+	box-shadow: none;
+}
+
+#MainMenu>div.Link>div>.Text>b
+{
+	color: #ffffff;
+}
+
+#MainMenu>div.Link>div>.Text>span
+{
+	color: #c0c0c0;
+}
+
+#MainMenu>div.Link>div>.Count
+{
+	border-color: #606060 #000000 #000000 #606060;
+	box-shadow: 0px 1px 2px #000000;
+}
+
+body>h1
+{
+	margin: 0px 16px 16px 16px;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+body>.Content
+{
+	display: table;
+	width: 100%;
+}
+
+body>.Content>*
+{
+	display: table-cell;
+}
+
+@media all and (max-width: 799px)
+{
+	body
+	{
+		padding: 0px;
+	}
+
+	#MainMenu
+	{
+		display: block;
+	}
+
+	#MainMenu>*
+	{
+		display: block;
+	}
+
+	#MainMenu>.Left
+	{
+		display: none;
+	}
+
+	#MainMenu>.Right
+	{
+		display: none;
+	}
+
+	#MainMenu>div.Link
+	{
+		display: none;
+	}
+}
+
+@media all and (min-width: 800px)
+{
+	#MainMenu>a.Link:hover
+	{
+		background: linear-gradient(to bottom, #a0c000 0%, #80a000 100%);
+	}
+}

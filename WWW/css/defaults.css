@@ -1,0 +1,31 @@
+*
+{
+	margin: 0px;
+	padding: 0px;
+	color: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	vertical-align: top;
+	box-sizing: border-box;
+}
+
+b
+{
+	font-weight: bold;
+}
+
+body
+{
+	font-size: 0px;
+}
+
+u
+{
+	text-decoration: underline;
+}
+
+html
+{
+	height: 100%;
+}

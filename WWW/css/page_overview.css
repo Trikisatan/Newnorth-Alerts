@@ -1,0 +1,92 @@
+#Wall>*
+{
+	display: table;
+	margin: 0px 16px 8px 16px;
+	box-shadow: 0px 2px 2px #000000;
+}
+
+#Wall>*>*
+{
+	display: table-cell;
+	background: linear-gradient(to bottom, #404040 0%, #202020 100%);
+	border-color: #606060 #202020 #000000 #404040;
+	border-style: solid;
+	border-width: 1px 1px 0px 1px;
+}
+
+#Wall>.Alert>.HighPriority,
+#Wall>.Alert>.MediumPriority,
+#Wall>.Alert>.LowPriority
+{
+	width: 16px;
+	min-width: 16px;
+}
+
+#Wall>.Alert>.HighPriority
+{
+	background: linear-gradient(to bottom, #a00000 0%, #800000 100%);
+	border-color: #c00000 #800000 #000000 #a00000;
+}
+
+#Wall>.Alert>.MediumPriority
+{
+	background: linear-gradient(to bottom, #c06000 0%, #804000 100%);
+	border-color: #c06000 #804000 #000000 #c06000;
+}
+
+#Wall>.Alert>.LowPriority
+{
+	background: linear-gradient(to bottom, #e0e000 0%, #c0c000 100%);
+	border-color: #e0e000 #c0c000 #000000 #e0e000;
+}
+
+#Wall>.Alert>.Information
+{
+	padding: 8px 16px;
+	vertical-align: middle;
+	width: 100%;
+}
+
+#Wall>.Alert>.Information>b
+{
+	display: block;
+	color: #e0e0e0;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+#Wall>.Alert>.Information>span
+{
+	display: block;
+	color: #a0a0a0;
+	font-family: Arial;
+	font-size: 12px;
+}
+
+#Wall>.Alert>.Time
+{
+	padding: 8px 16px;
+	text-align: center;
+	height: 100%;
+}
+
+#Wall>.Alert>.Time>span
+{
+	display: block;
+	color: #a0a0a0;
+	font-family: Arial;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+#Wall>.Alert>.Time>b
+{
+	display: block;
+	color: #e0e0e0;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	white-space: nowrap;
+}

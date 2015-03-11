@@ -16,6 +16,7 @@ set_error_handler('ErrorHandler');
 /* Includes */
 
 require('Framework/Newnorth/Newnorth.php');
+require('Framework/MySQL/MySQL.php');
 
 /* Global variables */
 
