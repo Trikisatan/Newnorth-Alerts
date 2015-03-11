@@ -6,13 +6,10 @@ Overview.Wall.Test = function(id, test) {
 	this.Element = Overview.Wall.Test.Html.cloneNode(true);
 
 	this.PriorityLevelElement = this.Element.childNodes[0];
-	this.PriorityLevelElement.className = this.Test.StatePriorityLevel + "Priority";
 
 	this.TitleElement = this.Element.childNodes[1].childNodes[0];
-	this.TitleElement.innerHTML = this.Test.Title;
 
 	this.DescriptionElement = this.Element.childNodes[1].childNodes[1];
-	this.DescriptionElement.innerHTML = this.Test.StateDescription;
 
 	this.TimeElapsedElement = this.Element.childNodes[2].childNodes[1];
 }

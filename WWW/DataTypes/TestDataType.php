@@ -12,6 +12,8 @@ class TestDataType extends DataType {
 
 	public $Title;
 
+	public $Url;
+
 	public $State;
 
 	public $StateDescription;
@@ -26,8 +28,6 @@ class TestDataType extends DataType {
 
 	public $TimeLastExecuted;
 
-	public $Url;
-
 	/* Magic methods */
 
 	public function __construct($Data) {
@@ -37,6 +37,10 @@ class TestDataType extends DataType {
 
 		if(isset($Data['Title'])) {
 			$this->Title = $Data['Title'];
+		}
+
+		if(isset($Data['Url'])) {
+			$this->Url = $Data['Url'];
 		}
 
 		if(isset($Data['State'])) {
@@ -65,10 +69,6 @@ class TestDataType extends DataType {
 
 		if(isset($Data['TimeLastExecuted'])) {
 			$this->TimeLastExecuted = (int)$Data['TimeLastExecuted'];
-		}
-
-		if(isset($Data['URL'])) {
-			$this->Url = $Data['URL'];
 		}
 	}
 

@@ -2,6 +2,10 @@ Tests = [];
 
 OnTestAdded = new Newnorth.Event();
 
+OnTestStateChangedToOK = new Newnorth.Event();
+
+OnTestStateChangedToFAILED = new Newnorth.Event();
+
 LoadTests = function() {
 	var request = new XMLHttpRequest();
 
@@ -52,8 +56,33 @@ ExecuteTest = function(test) {
 	request.open("GET", "/execute-test/" + test.Id + "/", false);
 
 	request.send(null);
-console.log(request.responseText);
-	//var response = JSON.parse(request.responseText);
+
+	var response = JSON.parse(request.responseText);
+
+	if(response !== false) {
+		var state = test.State;
+
+		test.State = response.State;
+
+		test.StatePriorityLevel = response.StatePriorityLevel;
+
+		test.StateDescription = response.StateDescription;
+
+		test.TimeLastFailed = response.TimeLastFailed;
+
+		test.IsExecuting = response.IsExecuting;
+
+		test.TimeLastExecuted = response.TimeLastExecuted;
+
+		if(test.State !== state) {
+			if(test.State === "OK") {
+				OnTestStateChangedToOK.Invoke(null, {From: state, Test: test});
+			}
+			else if(test.State === "FAILED") {
+				OnTestStateChangedToFAILED.Invoke(null, {From: state, Test: test});
+			}
+		}
+	}
 }
 
 window.addEventListener(

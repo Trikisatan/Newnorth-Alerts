@@ -12,9 +12,23 @@ Overview.Wall.Load = function() {
 	OnTestAdded.AddListener(
 		this,
 		function(invoker, data) {
-			if(data.State === "Failed") {
-				this.AddTest(data);
+			if(data.State === "FAILED") {
+				Overview.Wall.AddTest(data);
 			}
+		}
+	);
+
+	OnTestStateChangedToOK.AddListener(
+		this,
+		function(invoker, data) {
+			Overview.Wall.RemoveTest(data.Test);
+		}
+	);
+
+	OnTestStateChangedToFAILED.AddListener(
+		this,
+		function(invoker, data) {
+			Overview.Wall.AddTest(data.Test);
 		}
 	);
 }
@@ -46,7 +60,23 @@ Overview.Wall.AddTest = function(test) {
 		this.Elements.push(element);
 	}
 
+	element.PriorityLevelElement.className = test.StatePriorityLevel + "Priority";
+
+	element.TitleElement.innerHTML = test.Title;
+
+	element.DescriptionElement.innerHTML = test.StateDescription;
+
 	if(element.Element.parentNode === null) {
 		this.Element.appendChild(element.Element);
+	}
+}
+
+Overview.Wall.RemoveTest = function(test) {
+	var id = "Test-" + test.Id;
+
+	var element = this.FindElement(id);
+
+	if(element !== null) {
+		this.Element.removeChild(element.Element);
 	}
 }

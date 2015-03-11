@@ -19,7 +19,7 @@ class TestDataManager extends DataManager {
 	}
 
 	public function Unlock() {
-		$this->Connection->Unlock();
+		$this->Connection->Unlock(['Test']);
 	}
 
 	public function FindById($Id) {

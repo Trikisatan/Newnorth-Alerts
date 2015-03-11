@@ -16,7 +16,8 @@
 
 #Wall>.Alert>.HighPriority,
 #Wall>.Alert>.MediumPriority,
-#Wall>.Alert>.LowPriority
+#Wall>.Alert>.LowPriority,
+#Wall>.Alert>.UnknownPriority
 {
 	width: 16px;
 	min-width: 16px;
@@ -38,6 +39,12 @@
 {
 	background: linear-gradient(to bottom, #e0e000 0%, #c0c000 100%);
 	border-color: #e0e000 #c0c000 #000000 #e0e000;
+}
+
+#Wall>.Alert>.UnknownPriority
+{
+	background: linear-gradient(to bottom, #202020 0%, #000000 100%);
+	border-color: #404040 #000000 #000000 #404040;
 }
 
 #Wall>.Alert>.Information
@@ -63,6 +70,7 @@
 	color: #a0a0a0;
 	font-family: Arial;
 	font-size: 12px;
+	white-space: pre;
 }
 
 #Wall>.Alert>.Time
