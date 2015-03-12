@@ -18,17 +18,19 @@ Overview.Wall.Load = function() {
 		}
 	);
 
+	OnTestUpdated.AddListener(
+		this,
+		function(invoker, data) {
+			if(data.State === "FAILED") {
+				Overview.Wall.AddTest(data);
+			}
+		}
+	);
+
 	OnTestStateChangedToOK.AddListener(
 		this,
 		function(invoker, data) {
 			Overview.Wall.RemoveTest(data.Test);
-		}
-	);
-
-	OnTestStateChangedToFAILED.AddListener(
-		this,
-		function(invoker, data) {
-			Overview.Wall.AddTest(data.Test);
 		}
 	);
 }
@@ -60,11 +62,7 @@ Overview.Wall.AddTest = function(test) {
 		this.Elements.push(element);
 	}
 
-	element.PriorityLevelElement.className = test.StatePriorityLevel + "Priority";
-
-	element.TitleElement.innerHTML = test.Title;
-
-	element.DescriptionElement.innerHTML = test.StateDescription;
+	element.UpdateData();
 
 	if(element.Element.parentNode === null) {
 		this.Element.appendChild(element.Element);

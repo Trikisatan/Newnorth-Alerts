@@ -2,6 +2,8 @@ Tests = [];
 
 OnTestAdded = new Newnorth.Event();
 
+OnTestUpdated = new Newnorth.Event();
+
 OnTestStateChangedToOK = new Newnorth.Event();
 
 OnTestStateChangedToFAILED = new Newnorth.Event();
@@ -51,12 +53,12 @@ UpdateTests = function() {
 						AddTest(response[i]);
 					}
 					else {
-						UpdateTest(test, response[i]);
+						UpdateTest(test, response[i], false);
 					}
 				}
 			}
 			catch(exception) {
-				
+
 			}
 
 			setTimeout(UpdateTests, 1000);
@@ -84,22 +86,54 @@ AddTest = function(test) {
 	OnTestAdded.Invoke(null, test);
 }
 
-UpdateTest = function(test, data) {
-	var state = test.State;
+UpdateTest = function(test, data, isPreUpdated) {
+	var isUpdated = isPreUpdated;
 
-	test.State = data.State;
+	var isStateUpdated = false;
 
-	test.StatePriorityLevel = data.StatePriorityLevel;
+	if(test.State !== data.State) {
+		test.State = data.State;
 
-	test.StateDescription = data.StateDescription;
+		isUpdated = true;
 
-	test.TimeLastFailed = data.TimeLastFailed;
+		isStateUpdated = true;
+	}
 
-	test.IsExecuting = data.IsExecuting;
+	if(test.StatePriorityLevel !== data.StatePriorityLevel) {
+		test.StatePriorityLevel = data.StatePriorityLevel;
 
-	test.TimeLastExecuted = data.TimeLastExecuted;
+		isUpdated = true;
+	}
 
-	if(test.State !== state) {
+	if(test.StateDescription !== data.StateDescription) {
+		test.StateDescription = data.StateDescription;
+
+		isUpdated = true;
+	}
+
+	if(test.TimeLastFailed !== data.TimeLastFailed) {
+		test.TimeLastFailed = data.TimeLastFailed;
+
+		isUpdated = true;
+	}
+
+	if(test.IsExecuting !== data.IsExecuting) {
+		test.IsExecuting = data.IsExecuting;
+
+		isUpdated = true;
+	}
+
+	if(test.TimeLastExecuted !== data.TimeLastExecuted) {
+		test.TimeLastExecuted = data.TimeLastExecuted;
+
+		isUpdated = true;
+	}
+
+	if(isUpdated) {
+		OnTestUpdated.Invoke(null, test);
+	}
+
+	if(isStateUpdated) {
 		if(test.State === "OK") {
 			OnTestStateChangedToOK.Invoke(null, {From: state, Test: test});
 		}
@@ -122,11 +156,11 @@ ExecuteTest = function(test, force) {
 				var response = JSON.parse(request.responseText);
 
 				if(response !== false) {
-					UpdateTest(this.Test, response);
+					UpdateTest(this.Test, response, false);
 				}
 			}
 			catch(exception) {
-				
+
 			}
 		}
 	};

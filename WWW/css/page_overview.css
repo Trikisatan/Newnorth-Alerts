@@ -8,139 +8,160 @@
 #Wall>*>*
 {
 	display: table-cell;
-	background: linear-gradient(to bottom, #404040 0%, #202020 100%);
-	border-color: #606060 #202020 #000000 #404040;
+	background: linear-gradient(to bottom, #404040 0px, #202020 48px);
+	border-color: #606060 #202020 #202020 #404040;
 	border-style: solid;
-	border-width: 1px 1px 0px 1px;
-	vertical-align: middle;
+	border-width: 1px;
+	position: relative;
 }
 
-#Wall>.Alert>.HighPriority,
-#Wall>.Alert>.MediumPriority,
-#Wall>.Alert>.LowPriority,
-#Wall>.Alert>.UnknownPriority
+#Wall>.Test>.HighPriority,
+#Wall>.Test>.MediumPriority,
+#Wall>.Test>.LowPriority,
+#Wall>.Test>.UnknownPriority
 {
 	width: 16px;
 	min-width: 16px;
 }
 
-#Wall>.Alert>.HighPriority
+#Wall>.Test>.HighPriority
 {
-	background: linear-gradient(to bottom, #a00000 0%, #800000 100%);
-	border-color: #c00000 #800000 #000000 #a00000;
+	background: linear-gradient(to bottom, #a00000 0px, #800000 48px);
+	border-color: #c00000 #800000 #800000 #a00000;
 }
 
-#Wall>.Alert>.MediumPriority
+#Wall>.Test>.MediumPriority
 {
-	background: linear-gradient(to bottom, #c06000 0%, #804000 100%);
-	border-color: #c06000 #804000 #000000 #c06000;
+	background: linear-gradient(to bottom, #c06000 0px, #804000 48px);
+	border-color: #c06000 #804000 #804000 #c06000;
 }
 
-#Wall>.Alert>.LowPriority
+#Wall>.Test>.LowPriority
 {
-	background: linear-gradient(to bottom, #e0e000 0%, #c0c000 100%);
-	border-color: #e0e000 #c0c000 #000000 #e0e000;
+	background: linear-gradient(to bottom, #e0e000 0px, #c0c000 48px);
+	border-color: #e0e000 #c0c000 #c0c000 #e0e000;
 }
 
-#Wall>.Alert>.UnknownPriority
+#Wall>.Test>.UnknownPriority
 {
-	background: linear-gradient(to bottom, #202020 0%, #000000 100%);
+	background: linear-gradient(to bottom, #202020 0px, #000000 48px);
 	border-color: #404040 #000000 #000000 #404040;
 }
 
-#Wall>.Alert>.Information
+#Wall>.Test>.Information
 {
 	padding: 8px 16px;
 	vertical-align: middle;
 	width: 100%;
 }
 
-#Wall>.Alert>.Information>b
+#Wall>.Test>.Information>b
 {
 	display: block;
 	color: #e0e0e0;
 	font-family: Arial;
 	font-size: 14px;
 	font-weight: bold;
+	line-height: 17px;
 	white-space: nowrap;
 }
 
-#Wall>.Alert>.Information>span
+#Wall>.Test>.Information>span
 {
 	display: block;
 	color: #a0a0a0;
 	font-family: Arial;
 	font-size: 12px;
+	line-height: 15px;
 	white-space: pre;
+	height: 15px;
+	overflow: hidden;
+	transition: height 0.2s;
 }
 
-#Wall>.Alert>.NextExecution
+#Wall>.Test>.Information>.More
+{
+	opacity: 1.0;
+	margin-left: -8px;
+	width: 16px;
+	position: absolute;
+	left: 50%;
+	bottom: 4px;
+	transition: opacity 0.2s;
+}
+
+#Wall>.Test>.NextExecution
 {
 	padding: 8px 16px;
 	text-align: center;
-	height: 100%;
 }
 
-#Wall>.Alert>.NextExecution>span
+#Wall>.Test>.NextExecution>span
 {
 	display: block;
 	color: #a0a0a0;
 	font-family: Arial;
 	font-size: 12px;
+	line-height: 15px;
 	white-space: nowrap;
 }
 
-#Wall>.Alert>.NextExecution>b
+#Wall>.Test>.NextExecution>b
 {
 	display: block;
 	color: #e0e0e0;
 	font-family: Arial;
 	font-size: 14px;
 	font-weight: bold;
+	line-height: 17px;
 	white-space: nowrap;
 }
 
-#Wall>.Alert>.Reload
+#Wall>.Test>.Reload
 {
 	padding: 8px 16px;
 	text-align: center;
-	height: 100%;
 }
 
-#Wall>.Alert>.Reload>img
+#Wall>.Test>.Reload>img
 {
 	cursor: pointer;
 }
 
-#Wall>.Alert>.Loading
+#Wall>.Test>.Loading
+{
+	padding: 18px 24px 19px 24px;
+	text-align: center;
+}
+
+#Wall>.Test>.Time
 {
 	padding: 8px 16px;
 	text-align: center;
-	height: 100%;
 }
 
-#Wall>.Alert>.Time
-{
-	padding: 8px 16px;
-	text-align: center;
-	height: 100%;
-}
-
-#Wall>.Alert>.Time>span
+#Wall>.Test>.Time>span
 {
 	display: block;
 	color: #a0a0a0;
 	font-family: Arial;
 	font-size: 12px;
+	line-height: 15px;
 	white-space: nowrap;
 }
 
-#Wall>.Alert>.Time>b
+#Wall>.Test>.Time>b
 {
 	display: block;
 	color: #e0e0e0;
 	font-family: Arial;
 	font-size: 14px;
 	font-weight: bold;
+	line-height: 17px;
 	white-space: nowrap;
+}
+
+#Wall>.Test:hover>.Information>.More
+{
+	opacity: 0.0;
 }
