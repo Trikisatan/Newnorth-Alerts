@@ -11,7 +11,7 @@ class TestsPage extends \Framework\Newnorth\Page {
 	/* Life cycle methods */
 
 	public function Initialize() {
-		
+
 	}
 
 	public function Load() {
@@ -23,6 +23,7 @@ class TestsPage extends \Framework\Newnorth\Page {
 			$this->Data[] = [
 				'Id' => $Test->Id,
 				'Title' => $Test->Title,
+				'Url' => $Test->Url,
 				'State' => $Test->State,
 				'StatePriorityLevel' => $Test->StatePriorityLevel,
 				'StateDescription' => $Test->StateDescription,
@@ -30,13 +31,13 @@ class TestsPage extends \Framework\Newnorth\Page {
 				'IsExecuting' => $Test->IsExecuting,
 				'ExecutionInterval' => $Test->ExecutionInterval,
 				'TimeLastExecuted' => $Test->TimeLastExecuted,
-				'Url' => $Test->Url,
+				'ExecutionTimeout' => $Test->ExecutionTimeout,
 			];
 		}
 	}
 
 	public function Execute() {
-		
+
 	}
 }
 ?>

@@ -28,6 +28,8 @@ class TestDataType extends DataType {
 
 	public $TimeLastExecuted;
 
+	public $ExecutionTimeout;
+
 	/* Magic methods */
 
 	public function __construct($Data) {
@@ -69,6 +71,10 @@ class TestDataType extends DataType {
 
 		if(isset($Data['TimeLastExecuted'])) {
 			$this->TimeLastExecuted = (int)$Data['TimeLastExecuted'];
+		}
+
+		if(isset($Data['ExecutionTimeout'])) {
+			$this->ExecutionTimeout = (int)$Data['ExecutionTimeout'];
 		}
 	}
 
@@ -192,6 +198,26 @@ class TestDataType extends DataType {
 		$Connection->Update($Query);
 
 		$this->TimeLastExecuted = $Value;
+	}
+
+ 	public function SetExecutionTimeout($Value) {
+		$Value = (int)$Value;
+
+		$Query = new DbUpdateQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddChange('`ExecutionTimeout`', $Value);
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->EqualTo('`Id`', $this->Id);
+
+		$Connection = Application::GetDbConnection('Default');
+
+		$Connection->Update($Query);
+
+		$this->ExecutionTimeout = $Value;
 	}
 }
 ?>
