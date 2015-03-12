@@ -1,7 +1,9 @@
 #Wall>*
 {
 	display: table;
-	margin: 0px 16px 8px 16px;
+	table-layout: fixed;
+	margin-bottom: 8px;
+	width: 100%;
 	box-shadow: 0px 2px 2px #000000;
 }
 
@@ -51,8 +53,7 @@
 #Wall>.Test>.Information
 {
 	padding: 8px 16px;
-	vertical-align: middle;
-	width: 100%;
+	overflow: hidden;
 }
 
 #Wall>.Test>.Information>b
@@ -63,6 +64,7 @@
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
+	text-shadow: 0px 1px 2px #000000;
 	white-space: nowrap;
 }
 
@@ -94,13 +96,16 @@
 {
 	padding: 18px 24px 19px 24px;
 	text-align: center;
+	width: 66px;
+	min-width: 66px;
 }
 
 #Wall>.Test>.ExecutionTime
 {
 	padding: 8px 16px;
 	text-align: center;
-	min-width: 125px;
+	width: 120px;
+	min-width: 120px;
 }
 
 #Wall>.Test>.ExecutionTime>span
@@ -121,6 +126,7 @@
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
+	text-shadow: 0px 1px 2px #000000;
 	white-space: nowrap;
 }
 
@@ -128,6 +134,8 @@
 {
 	padding: 8px 16px;
 	text-align: center;
+	width: 66px;
+	min-width: 66px;
 }
 
 #Wall>.Test>.Reload>img
@@ -139,7 +147,8 @@
 {
 	padding: 8px 16px;
 	text-align: center;
-	min-width: 125px;
+	width: 120px;
+	min-width: 120px;
 }
 
 #Wall>.Test>.NextExecution>span
@@ -160,6 +169,7 @@
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
+	text-shadow: 0px 1px 2px #000000;
 	white-space: nowrap;
 }
 
@@ -167,7 +177,8 @@
 {
 	padding: 8px 16px;
 	text-align: center;
-	min-width: 125px;
+	width: 120px;
+	min-width: 120px;
 }
 
 #Wall>.Test>.TimeElapsed>span
@@ -188,10 +199,146 @@
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
+	text-shadow: 0px 1px 2px #000000;
 	white-space: nowrap;
 }
 
 #Wall>.Test:hover>.Information>.More
 {
 	opacity: 0.0;
+}
+
+#UpcommingEvents>*
+{
+	display: table;
+	table-layout: fixed;
+	margin-bottom: 8px;
+	width: 100%;
+	box-shadow: 0px 2px 2px #000000;
+}
+
+#UpcommingEvents>*>*
+{
+	display: table-cell;
+	background: linear-gradient(to bottom, #404040 0px, #202020 48px);
+	border-color: #606060 #202020 #202020 #404040;
+	border-style: solid;
+	border-width: 1px;
+	position: relative;
+}
+
+#UpcommingEvents>.Test>.Information
+{
+	padding: 8px 16px;
+	overflow: hidden;
+}
+
+#UpcommingEvents>.Test>.Information>b
+{
+	display: inline-block;
+	color: #e0e0e0;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 17px;
+	text-shadow: 0px 1px 2px #000000;
+	white-space: nowrap;
+}
+
+#UpcommingEvents>.Test>.Loading
+{
+	padding: 18px 24px 19px 24px;
+	text-align: center;
+	width: 66px;
+	min-width: 66px;
+}
+
+#UpcommingEvents>.Test>.ExecutionTime
+{
+	padding: 8px 16px;
+	text-align: center;
+	width: 120px;
+	min-width: 120px;
+}
+
+#UpcommingEvents>.Test>.ExecutionTime>span
+{
+	display: block;
+	color: #a0a0a0;
+	font-family: Arial;
+	font-size: 12px;
+	line-height: 15px;
+	white-space: nowrap;
+}
+
+#UpcommingEvents>.Test>.ExecutionTime>b
+{
+	display: block;
+	color: #e0e0e0;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 17px;
+	text-shadow: 0px 1px 2px #000000;
+	white-space: nowrap;
+}
+
+#UpcommingEvents>.Test>.Reload
+{
+	padding: 8px 16px;
+	text-align: center;
+	width: 66px;
+	min-width: 66px;
+}
+
+#UpcommingEvents>.Test>.Reload>img
+{
+	cursor: pointer;
+}
+
+#UpcommingEvents>.Test>.NextExecution
+{
+	padding: 8px 16px;
+	text-align: center;
+	width: 120px;
+	min-width: 120px;
+}
+
+#UpcommingEvents>.Test>.NextExecution>span
+{
+	display: block;
+	color: #a0a0a0;
+	font-family: Arial;
+	font-size: 12px;
+	line-height: 15px;
+	white-space: nowrap;
+}
+
+#UpcommingEvents>.Test>.NextExecution>b
+{
+	display: block;
+	color: #e0e0e0;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 17px;
+	text-shadow: 0px 1px 2px #000000;
+	white-space: nowrap;
+}
+
+@media all and (max-width: 1279px)
+{
+	#Overview>.Content
+	{
+		display: block;
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	#Overview>.Content>*
+	{
+		display: block;
+		margin-bottom: 16px;
+		padding: 0px 8px;
+	}
 }

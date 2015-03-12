@@ -87,53 +87,23 @@ AddTest = function(test) {
 }
 
 UpdateTest = function(test, data, isPreUpdated) {
+	var state = test.State;
+
 	var isUpdated = isPreUpdated;
 
-	var isStateUpdated = false;
+	for(var key in data) {
+		if(test[key] !== data[key]) {
+			test[key] = data[key];
 
-	if(test.State !== data.State) {
-		test.State = data.State;
-
-		isUpdated = true;
-
-		isStateUpdated = true;
-	}
-
-	if(test.StatePriorityLevel !== data.StatePriorityLevel) {
-		test.StatePriorityLevel = data.StatePriorityLevel;
-
-		isUpdated = true;
-	}
-
-	if(test.StateDescription !== data.StateDescription) {
-		test.StateDescription = data.StateDescription;
-
-		isUpdated = true;
-	}
-
-	if(test.TimeLastFailed !== data.TimeLastFailed) {
-		test.TimeLastFailed = data.TimeLastFailed;
-
-		isUpdated = true;
-	}
-
-	if(test.IsExecuting !== data.IsExecuting) {
-		test.IsExecuting = data.IsExecuting;
-
-		isUpdated = true;
-	}
-
-	if(test.TimeLastExecuted !== data.TimeLastExecuted) {
-		test.TimeLastExecuted = data.TimeLastExecuted;
-
-		isUpdated = true;
+			isUpdated = true;
+		}
 	}
 
 	if(isUpdated) {
 		OnTestUpdated.Invoke(null, test);
 	}
 
-	if(isStateUpdated) {
+	if(test.State !== state) {
 		if(test.State === "OK") {
 			OnTestStateChangedToOK.Invoke(null, {From: state, Test: test});
 		}
