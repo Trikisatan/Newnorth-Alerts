@@ -100,6 +100,18 @@
 	white-space: nowrap;
 }
 
+#Wall>.Alert>.Reload
+{
+	padding: 8px 16px;
+	text-align: center;
+	height: 100%;
+}
+
+#Wall>.Alert>.Reload>img
+{
+	cursor: pointer;
+}
+
 #Wall>.Alert>.Loading
 {
 	padding: 8px 16px;

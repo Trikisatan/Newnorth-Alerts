@@ -35,7 +35,7 @@ Update_ExecuteTests = function(time) {
 		var test = Tests[i];
 
 		if(!test.IsExecuting && test.TimeLastExecuted + test.ExecutionInterval < time) {
-			ExecuteTest(Tests[i]);
+			ExecuteTest(Tests[i], false);
 		}
 	}
 }
@@ -46,7 +46,7 @@ AddTest = function(test) {
 	OnTestAdded.Invoke(null, test);
 }
 
-ExecuteTest = function(test) {
+ExecuteTest = function(test, force) {
 	test.IsExecuting = true;
 
 	var request = new XMLHttpRequest();
@@ -91,7 +91,7 @@ ExecuteTest = function(test) {
 		}
 	};
 
-	request.open("GET", "/execute-test/" + test.Id + "/", false);
+	request.open("GET", "/execute-test/" + test.Id + "/" + (force ? "?force" : ""), false);
 
 	request.send(null);
 }

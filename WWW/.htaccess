@@ -12,15 +12,3 @@ deny from all
 <Files index.php>
 allow from all
 </Files>
-
-<Files *.css>
-allow from all
-</Files>
-
-<Files *.png>
-allow from all
-</Files>
-
-<Files *.wav>
-allow from all
-</Files>

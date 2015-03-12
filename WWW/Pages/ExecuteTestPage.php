@@ -24,7 +24,24 @@ class ExecuteTestPage extends \Framework\Newnorth\Page {
 		if($this->Test === null) {
 			$this->Data = false;
 		}
-		else if($this->Test->IsExecuting || time() < $this->Test->TimeLastExecuted + $this->Test->ExecutionInterval) {
+		else if($this->Test->IsExecuting) {
+			$this->Data = [
+				'State' => $this->Test->State,
+				'StatePriorityLevel' => $this->Test->StatePriorityLevel,
+				'StateDescription' => $this->Test->StateDescription,
+				'TimeLastFailed' => $this->Test->TimeLastFailed,
+				'IsExecuting' => $this->Test->IsExecuting,
+				'TimeLastExecuted' => $this->Test->TimeLastExecuted,
+			];
+
+			$this->Test = null;
+		}
+		else if(isset($_GET['force'])) {
+			$this->Test->SetIsExecuting(true);
+
+			$this->Test->SetTimeLastExecuted(time());
+		}
+		else if(time() < $this->Test->TimeLastExecuted + $this->Test->ExecutionInterval) {
 			$this->Data = [
 				'State' => $this->Test->State,
 				'StatePriorityLevel' => $this->Test->StatePriorityLevel,
