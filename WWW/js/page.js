@@ -6,18 +6,14 @@ OnTestStateChangedToOK = new Newnorth.Event();
 
 OnTestStateChangedToFAILED = new Newnorth.Event();
 
-LoadTests = function() {
-	var request = new XMLHttpRequest();
+Load = function() {
+	Overview.Load();
+}
 
-	request.open("GET", "/data/tests/", false);
+Start = function() {
+	UpdateTests();
 
-	request.send(null);
-
-	var tests = JSON.parse(request.responseText);
-
-	for(var i = 0; i < tests.length; ++i) {
-		AddTest(tests[i]);
-	}
+	Update();
 }
 
 Update = function() {
@@ -40,10 +36,77 @@ Update_ExecuteTests = function(time) {
 	}
 }
 
+UpdateTests = function() {
+	var request = new XMLHttpRequest();
+
+	request.onreadystatechange = function() {
+		if(this.readyState === 4) {
+			try {
+				var response = JSON.parse(request.responseText);
+
+				for(var i = 0; i < response.length; ++i) {
+					var test = FindTest(response[i].Id);
+
+					if(test === null) {
+						AddTest(response[i]);
+					}
+					else {
+						UpdateTest(test, response[i]);
+					}
+				}
+			}
+			catch(exception) {
+				
+			}
+
+			setTimeout(UpdateTests, 1000);
+		}
+	};
+
+	request.open("GET", "/data/tests/", true);
+
+	request.send(null);
+}
+
+FindTest = function(id) {
+	for(var i = 0; i < Tests.length; ++i) {
+		if(Tests[i].Id === id) {
+			return Tests[i];
+		}
+	}
+
+	return null;
+}
+
 AddTest = function(test) {
 	Tests.push(test);
 
 	OnTestAdded.Invoke(null, test);
+}
+
+UpdateTest = function(test, data) {
+	var state = test.State;
+
+	test.State = data.State;
+
+	test.StatePriorityLevel = data.StatePriorityLevel;
+
+	test.StateDescription = data.StateDescription;
+
+	test.TimeLastFailed = data.TimeLastFailed;
+
+	test.IsExecuting = data.IsExecuting;
+
+	test.TimeLastExecuted = data.TimeLastExecuted;
+
+	if(test.State !== state) {
+		if(test.State === "OK") {
+			OnTestStateChangedToOK.Invoke(null, {From: state, Test: test});
+		}
+		else if(test.State === "FAILED") {
+			OnTestStateChangedToFAILED.Invoke(null, {From: state, Test: test});
+		}
+	}
 }
 
 ExecuteTest = function(test, force) {
@@ -55,43 +118,20 @@ ExecuteTest = function(test, force) {
 
 	request.onreadystatechange = function() {
 		if(this.readyState === 4) {
-			var response;
-
 			try {
-				response = JSON.parse(request.responseText);
+				var response = JSON.parse(request.responseText);
+
+				if(response !== false) {
+					UpdateTest(this.Test, response);
+				}
 			}
 			catch(exception) {
-				response = false;
-			}
-
-			if(response !== false) {
-				var state = this.Test.State;
-
-				this.Test.State = response.State;
-
-				this.Test.StatePriorityLevel = response.StatePriorityLevel;
-
-				this.Test.StateDescription = response.StateDescription;
-
-				this.Test.TimeLastFailed = response.TimeLastFailed;
-
-				this.Test.IsExecuting = response.IsExecuting;
-
-				this.Test.TimeLastExecuted = response.TimeLastExecuted;
-
-				if(this.Test.State !== state) {
-					if(this.Test.State === "OK") {
-						OnTestStateChangedToOK.Invoke(null, {From: state, Test: this.Test});
-					}
-					else if(this.Test.State === "FAILED") {
-						OnTestStateChangedToFAILED.Invoke(null, {From: state, Test: this.Test});
-					}
-				}
+				
 			}
 		}
 	};
 
-	request.open("GET", "/execute-test/" + test.Id + "/" + (force ? "?force" : ""), false);
+	request.open("GET", "/execute-test/" + test.Id + "/" + (force ? "?force" : ""), true);
 
 	request.send(null);
 }
@@ -99,10 +139,8 @@ ExecuteTest = function(test, force) {
 window.addEventListener(
 	"load",
 	function() {
-		Overview.Load();
+		Load();
 
-		LoadTests();
-
-		Update();
+		Start();
 	}
 );
