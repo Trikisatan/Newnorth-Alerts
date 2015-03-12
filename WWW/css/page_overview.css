@@ -90,10 +90,56 @@
 	transition: opacity 0.2s;
 }
 
+#Wall>.Test>.Loading
+{
+	padding: 18px 24px 19px 24px;
+	text-align: center;
+}
+
+#Wall>.Test>.ExecutionTime
+{
+	padding: 8px 16px;
+	text-align: center;
+	min-width: 125px;
+}
+
+#Wall>.Test>.ExecutionTime>span
+{
+	display: block;
+	color: #a0a0a0;
+	font-family: Arial;
+	font-size: 12px;
+	line-height: 15px;
+	white-space: nowrap;
+}
+
+#Wall>.Test>.ExecutionTime>b
+{
+	display: block;
+	color: #e0e0e0;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 17px;
+	white-space: nowrap;
+}
+
+#Wall>.Test>.Reload
+{
+	padding: 8px 16px;
+	text-align: center;
+}
+
+#Wall>.Test>.Reload>img
+{
+	cursor: pointer;
+}
+
 #Wall>.Test>.NextExecution
 {
 	padding: 8px 16px;
 	text-align: center;
+	min-width: 125px;
 }
 
 #Wall>.Test>.NextExecution>span
@@ -117,30 +163,14 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.Reload
+#Wall>.Test>.TimeElapsed
 {
 	padding: 8px 16px;
 	text-align: center;
+	min-width: 125px;
 }
 
-#Wall>.Test>.Reload>img
-{
-	cursor: pointer;
-}
-
-#Wall>.Test>.Loading
-{
-	padding: 18px 24px 19px 24px;
-	text-align: center;
-}
-
-#Wall>.Test>.Time
-{
-	padding: 8px 16px;
-	text-align: center;
-}
-
-#Wall>.Test>.Time>span
+#Wall>.Test>.TimeElapsed>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -150,7 +180,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.Time>b
+#Wall>.Test>.TimeElapsed>b
 {
 	display: block;
 	color: #e0e0e0;

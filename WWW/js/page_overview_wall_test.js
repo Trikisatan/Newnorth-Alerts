@@ -29,7 +29,11 @@ Overview.Wall.Test = function(id, test) {
 
 	this.MoreInformationElement = this.Element.childNodes[1].childNodes[2];
 
-	this.ReloadCellElement = this.Element.childNodes[2];
+	this.LoadingCellElement = this.Element.childNodes[2];
+
+	this.ExecutionTimeElement = this.Element.childNodes[3].childNodes[1];
+
+	this.ReloadCellElement = this.Element.childNodes[4];
 
 	this.ReloadCellElement.childNodes[0].addEventListener(
 		"click",
@@ -38,11 +42,9 @@ Overview.Wall.Test = function(id, test) {
 		}
 	);
 
-	this.LoadingCellElement = this.Element.childNodes[3];
+	this.NextExecutionElement = this.Element.childNodes[5].childNodes[1];
 
-	this.NextExecutionElement = this.Element.childNodes[4].childNodes[1];
-
-	this.TimeElapsedElement = this.Element.childNodes[5].childNodes[1];
+	this.TimeElapsedElement = this.Element.childNodes[6].childNodes[1];
 }
 
 Overview.Wall.Test.LoadHtml = function() {
@@ -60,28 +62,39 @@ Overview.Wall.Test.LoadHtml = function() {
 }
 
 Overview.Wall.Test.prototype.Update = function(time) {
-	this.Update_TimeElapsed(time);
+	this.Update_ExecutionTime(time);
 
 	this.Update_NextExecution(time);
+
+	this.Update_TimeElapsed(time);
 }
 
-Overview.Wall.Test.prototype.Update_TimeElapsed = function(time) {
-	var timeElapsed = time - this.Test.TimeLastFailed;
+Overview.Wall.Test.prototype.Update_ExecutionTime = function(time) {
+	if(this.Test.IsExecuting) {
+		var executionTime = Math.max(0, time - this.Test.TimeLastExecuted);
 
-	var seconds = Math.floor(timeElapsed % 60);
+		var seconds = Math.floor(executionTime % 60);
 
-	var minutes = Math.floor(timeElapsed / 60) % 60;
+		var minutes = Math.floor(executionTime / 60) % 60;
 
-	var hours = Math.floor(timeElapsed / 3600);
+		var hours = Math.floor(executionTime / 3600);
 
-	this.TimeElapsedElement.innerHTML = (9 < hours ? hours : "0" + hours) + ":" + (9 < minutes ? minutes : "0" + minutes) + ":" + (9 < seconds ? seconds : "0" + seconds);
+		this.ExecutionTimeElement.innerHTML = (9 < hours ? hours : "0" + hours) + ":" + (9 < minutes ? minutes : "0" + minutes) + ":" + (9 < seconds ? seconds : "0" + seconds);
+
+		this.LoadingCellElement.style.display = "table-cell";
+
+		this.ExecutionTimeElement.parentNode.style.display = "table-cell";
+	}
+	else {
+		this.LoadingCellElement.style.display = "none";
+
+		this.ExecutionTimeElement.parentNode.style.display = "none";
+	}
 }
 
 Overview.Wall.Test.prototype.Update_NextExecution = function(time) {
 	if(this.Test.IsExecuting) {
 		this.ReloadCellElement.style.display = "none";
-
-		this.LoadingCellElement.style.display = "table-cell";
 
 		this.NextExecutionElement.parentNode.style.display = "none";
 	}
@@ -98,10 +111,20 @@ Overview.Wall.Test.prototype.Update_NextExecution = function(time) {
 
 		this.ReloadCellElement.style.display = "table-cell";
 
-		this.LoadingCellElement.style.display = "none";
-
 		this.NextExecutionElement.parentNode.style.display = "table-cell";
 	}
+}
+
+Overview.Wall.Test.prototype.Update_TimeElapsed = function(time) {
+	var timeElapsed = time - this.Test.TimeLastFailed;
+
+	var seconds = Math.floor(timeElapsed % 60);
+
+	var minutes = Math.floor(timeElapsed / 60) % 60;
+
+	var hours = Math.floor(timeElapsed / 3600);
+
+	this.TimeElapsedElement.innerHTML = (9 < hours ? hours : "0" + hours) + ":" + (9 < minutes ? minutes : "0" + minutes) + ":" + (9 < seconds ? seconds : "0" + seconds);
 }
 
 Overview.Wall.Test.prototype.UpdateData = function() {

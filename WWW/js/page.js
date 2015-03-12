@@ -146,6 +146,8 @@ UpdateTest = function(test, data, isPreUpdated) {
 ExecuteTest = function(test, force) {
 	test.IsExecuting = true;
 
+	test.TimeLastExecuted = Math.floor(Date.now() / 1000);
+
 	var request = new XMLHttpRequest();
 
 	request.Test = test;
