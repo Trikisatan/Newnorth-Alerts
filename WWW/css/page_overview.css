@@ -1,13 +1,22 @@
 #Wall>*
 {
+	padding: 0px 8px;
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 28px;
+	transition: top 0.8s;
+}
+
+#Wall>*>div
+{
 	display: table;
 	table-layout: fixed;
-	margin-bottom: 8px;
 	width: 100%;
 	box-shadow: 0px 2px 2px #000000;
 }
 
-#Wall>*>*
+#Wall>*>div>*
 {
 	display: table-cell;
 	background: linear-gradient(to bottom, #404040 0px, #202020 48px);
@@ -17,46 +26,46 @@
 	position: relative;
 }
 
-#Wall>.Test>.HighPriority,
-#Wall>.Test>.MediumPriority,
-#Wall>.Test>.LowPriority,
-#Wall>.Test>.UnknownPriority
+#Wall>.Test>div>.HighPriority,
+#Wall>.Test>div>.MediumPriority,
+#Wall>.Test>div>.LowPriority,
+#Wall>.Test>div>.UnknownPriority
 {
 	width: 16px;
 	min-width: 16px;
 }
 
-#Wall>.Test>.HighPriority
+#Wall>.Test>div>.HighPriority
 {
 	background: linear-gradient(to bottom, #a00000 0px, #800000 48px);
 	border-color: #c00000 #800000 #800000 #a00000;
 }
 
-#Wall>.Test>.MediumPriority
+#Wall>.Test>div>.MediumPriority
 {
 	background: linear-gradient(to bottom, #c06000 0px, #804000 48px);
 	border-color: #c06000 #804000 #804000 #c06000;
 }
 
-#Wall>.Test>.LowPriority
+#Wall>.Test>div>.LowPriority
 {
 	background: linear-gradient(to bottom, #e0e000 0px, #c0c000 48px);
 	border-color: #e0e000 #c0c000 #c0c000 #e0e000;
 }
 
-#Wall>.Test>.UnknownPriority
+#Wall>.Test>div>.UnknownPriority
 {
 	background: linear-gradient(to bottom, #202020 0px, #000000 48px);
 	border-color: #404040 #000000 #000000 #404040;
 }
 
-#Wall>.Test>.Information
+#Wall>.Test>div>.Information
 {
 	padding: 8px 16px;
 	overflow: hidden;
 }
 
-#Wall>.Test>.Information>b
+#Wall>.Test>div>.Information>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -68,7 +77,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.Information>span
+#Wall>.Test>div>.Information>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -81,7 +90,7 @@
 	transition: height 0.2s;
 }
 
-#Wall>.Test>.Information>.More
+#Wall>.Test>div>.Information>.More
 {
 	opacity: 1.0;
 	margin-left: -8px;
@@ -92,7 +101,7 @@
 	transition: opacity 0.2s;
 }
 
-#Wall>.Test>.Loading
+#Wall>.Test>div>.Loading
 {
 	padding: 18px 24px 19px 24px;
 	text-align: center;
@@ -100,7 +109,7 @@
 	min-width: 66px;
 }
 
-#Wall>.Test>.ExecutionTime
+#Wall>.Test>div>.ExecutionTime
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -108,7 +117,7 @@
 	min-width: 120px;
 }
 
-#Wall>.Test>.ExecutionTime>span
+#Wall>.Test>div>.ExecutionTime>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -118,7 +127,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.ExecutionTime>b
+#Wall>.Test>div>.ExecutionTime>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -130,7 +139,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.Reload
+#Wall>.Test>div>.Reload
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -138,12 +147,12 @@
 	min-width: 66px;
 }
 
-#Wall>.Test>.Reload>img
+#Wall>.Test>div>.Reload>img
 {
 	cursor: pointer;
 }
 
-#Wall>.Test>.NextExecution
+#Wall>.Test>div>.NextExecution
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -151,7 +160,7 @@
 	min-width: 120px;
 }
 
-#Wall>.Test>.NextExecution>span
+#Wall>.Test>div>.NextExecution>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -161,7 +170,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.NextExecution>b
+#Wall>.Test>div>.NextExecution>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -173,7 +182,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.TimeElapsed
+#Wall>.Test>div>.TimeElapsed
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -181,7 +190,7 @@
 	min-width: 120px;
 }
 
-#Wall>.Test>.TimeElapsed>span
+#Wall>.Test>div>.TimeElapsed>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -191,7 +200,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>.TimeElapsed>b
+#Wall>.Test>div>.TimeElapsed>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -203,21 +212,30 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test:hover>.Information>.More
+#Wall>.Test>div:hover>.Information>.More
 {
 	opacity: 0.0;
 }
 
 #UpcommingEvents>*
 {
+	padding: 0px 8px;
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 28px;
+	transition: top 0.8s;
+}
+
+#UpcommingEvents>*>div
+{
 	display: table;
 	table-layout: fixed;
-	margin-bottom: 8px;
 	width: 100%;
 	box-shadow: 0px 2px 2px #000000;
 }
 
-#UpcommingEvents>*>*
+#UpcommingEvents>*>div>*
 {
 	display: table-cell;
 	background: linear-gradient(to bottom, #404040 0px, #202020 48px);
@@ -227,13 +245,13 @@
 	position: relative;
 }
 
-#UpcommingEvents>.Test>.Information
+#UpcommingEvents>.Test>div>.Information
 {
 	padding: 8px 16px;
 	overflow: hidden;
 }
 
-#UpcommingEvents>.Test>.Information>b
+#UpcommingEvents>.Test>div>.Information>b
 {
 	display: inline-block;
 	color: #e0e0e0;
@@ -245,7 +263,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>.Loading
+#UpcommingEvents>.Test>div>.Loading
 {
 	padding: 18px 24px 19px 24px;
 	text-align: center;
@@ -253,7 +271,7 @@
 	min-width: 66px;
 }
 
-#UpcommingEvents>.Test>.ExecutionTime
+#UpcommingEvents>.Test>div>.ExecutionTime
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -261,7 +279,7 @@
 	min-width: 120px;
 }
 
-#UpcommingEvents>.Test>.ExecutionTime>span
+#UpcommingEvents>.Test>div>.ExecutionTime>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -271,7 +289,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>.ExecutionTime>b
+#UpcommingEvents>.Test>div>.ExecutionTime>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -283,7 +301,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>.Reload
+#UpcommingEvents>.Test>div>.Reload
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -291,12 +309,12 @@
 	min-width: 66px;
 }
 
-#UpcommingEvents>.Test>.Reload>img
+#UpcommingEvents>.Test>div>.Reload>img
 {
 	cursor: pointer;
 }
 
-#UpcommingEvents>.Test>.NextExecution
+#UpcommingEvents>.Test>div>.NextExecution
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -304,7 +322,7 @@
 	min-width: 120px;
 }
 
-#UpcommingEvents>.Test>.NextExecution>span
+#UpcommingEvents>.Test>div>.NextExecution>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -314,7 +332,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>.NextExecution>b
+#UpcommingEvents>.Test>div>.NextExecution>b
 {
 	display: block;
 	color: #e0e0e0;

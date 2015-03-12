@@ -3,26 +3,28 @@ Overview.UpcommingEvents.Test = function(id, test) {
 
 	this.Test = test;
 
+	this.Order = (this.Test.IsExecuting ? 0 : this.Test.TimeLastExecuted + this.Test.ExecutionInterval);
+
 	this.Element = Overview.UpcommingEvents.Test.Html.cloneNode(true);
 
 	this.Element.Test = test;
 
-	this.TitleElement = this.Element.childNodes[0].childNodes[0];
+	this.TitleElement = this.Element.childNodes[0].childNodes[0].childNodes[0];
 
-	this.LoadingCellElement = this.Element.childNodes[1];
+	this.LoadingCellElement = this.Element.childNodes[0].childNodes[1];
 
-	this.ExecutionTimeElement = this.Element.childNodes[2].childNodes[1];
+	this.ExecutionTimeElement = this.Element.childNodes[0].childNodes[2].childNodes[1];
 
-	this.ReloadCellElement = this.Element.childNodes[3];
+	this.ReloadCellElement = this.Element.childNodes[0].childNodes[3];
 
 	this.ReloadCellElement.childNodes[0].addEventListener(
 		"click",
 		function() {
-			ExecuteTest(this.parentNode.parentNode.Test, true);
+			ExecuteTest(this.parentNode.parentNode.parentNode.Test, true);
 		}
 	);
 
-	this.NextExecutionElement = this.Element.childNodes[4].childNodes[1];
+	this.NextExecutionElement = this.Element.childNodes[0].childNodes[4].childNodes[1];
 }
 
 Overview.UpcommingEvents.Test.LoadHtml = function() {
@@ -36,10 +38,12 @@ Overview.UpcommingEvents.Test.LoadHtml = function() {
 
 	this.Html.className = "Test";
 
-	this.Html.innerHTML = request.responseText.replace(/\n/g, "");
+	this.Html.innerHTML = request.responseText.replace(/\t/g, "").replace(/\n/g, "");
 }
 
 Overview.UpcommingEvents.Test.prototype.Update = function(time) {
+	this.Order = (this.Test.IsExecuting ? 0 : this.Test.TimeLastExecuted + this.Test.ExecutionInterval);
+
 	this.Update_ExecutionTime(time);
 
 	this.Update_NextExecution(time);

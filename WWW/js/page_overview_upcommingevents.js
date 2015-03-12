@@ -2,6 +2,12 @@ Overview.UpcommingEvents = {};
 
 Overview.UpcommingEvents.Element = null;
 
+Overview.UpcommingEvents.ElementHeight = 50;
+
+Overview.UpcommingEvents.ElementSpacing = 8;
+
+Overview.UpcommingEvents.ElementOffset = Overview.UpcommingEvents.ElementHeight + Overview.UpcommingEvents.ElementSpacing;
+
 Overview.UpcommingEvents.Elements = [];
 
 Overview.UpcommingEvents.Load = function() {
@@ -28,6 +34,24 @@ Overview.UpcommingEvents.Update = function(time) {
 	for(var i = 0; i < this.Elements.length; ++i) {
 		this.Elements[i].Update(time);
 	}
+
+	this.Update_Sort();
+}
+
+Overview.UpcommingEvents.Update_Sort = function() {
+	for(var i = 1; i < this.Elements.length; ++i) {
+		if(this.Elements[i].Order < this.Elements[i - 1].Order) {
+			var element = this.Elements[i];
+
+			this.Elements[i] = this.Elements[i - 1];
+
+			this.Elements[i - 1] = element;
+
+			this.Elements[i - 1].Element.style.top = (28 + Overview.UpcommingEvents.ElementOffset * i -  Overview.UpcommingEvents.ElementOffset) + "px";
+
+			this.Elements[i].Element.style.top = (28 + Overview.UpcommingEvents.ElementOffset * i) + "px";
+		}
+	}
 }
 
 Overview.UpcommingEvents.FindElement = function(id) {
@@ -47,6 +71,8 @@ Overview.UpcommingEvents.AddTest = function(test) {
 
 	if(element === null) {
 		element = new Overview.UpcommingEvents.Test(id, test);
+
+		element.Element.style.top = (28 + Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
 
 		this.Elements.push(element);
 	}

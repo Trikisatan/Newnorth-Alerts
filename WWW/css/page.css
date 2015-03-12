@@ -144,6 +144,7 @@ body>.Page h2
 	font-family: Arial;
 	font-size: 16px;
 	font-weight: bold;
+	line-height: 20px;
 	text-shadow: 0px 1px 2px #000000;
 }
 
@@ -158,6 +159,7 @@ body>.Page>.Content>*
 {
 	display: table-cell;
 	padding: 0px 8px;
+	position: relative;
 }
 
 @media all and (max-width: 799px)

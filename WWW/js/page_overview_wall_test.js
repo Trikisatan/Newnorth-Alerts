@@ -3,6 +3,19 @@ Overview.Wall.Test = function(id, test) {
 
 	this.Test = test;
 
+	if(this.Test.StatePriorityLevel === "Unknown") {
+		this.Order = 0;
+	}
+	else if(this.Test.StatePriorityLevel === "High") {
+		this.Order = 1;
+	}
+	else if(this.Test.StatePriorityLevel === "Medium") {
+		this.Order = 2;
+	}
+	else if(this.Test.StatePriorityLevel === "Low") {
+		this.Order = 3;
+	}
+
 	this.Element = Overview.Wall.Test.Html.cloneNode(true);
 
 	this.Element.Test = test;
@@ -10,30 +23,30 @@ Overview.Wall.Test = function(id, test) {
 	this.Element.addEventListener(
 		"mouseover",
 		function() {
-			this.childNodes[1].childNodes[1].style.height = this.childNodes[1].childNodes[1].scrollHeight + "px";
+			this.childNodes[0].childNodes[1].childNodes[1].style.height = this.childNodes[0].childNodes[1].childNodes[1].scrollHeight + "px";
 		}
 	);
 
 	this.Element.addEventListener(
 		"mouseout",
 		function() {
-			this.childNodes[1].childNodes[1].style.height = "15px";
+			this.childNodes[0].childNodes[1].childNodes[1].style.height = "15px";
 		}
 	);
 
-	this.PriorityLevelElement = this.Element.childNodes[0];
+	this.PriorityLevelElement = this.Element.childNodes[0].childNodes[0];
 
-	this.TitleElement = this.Element.childNodes[1].childNodes[0];
+	this.TitleElement = this.Element.childNodes[0].childNodes[1].childNodes[0];
 
-	this.DescriptionElement = this.Element.childNodes[1].childNodes[1];
+	this.DescriptionElement = this.Element.childNodes[0].childNodes[1].childNodes[1];
 
-	this.MoreInformationElement = this.Element.childNodes[1].childNodes[2];
+	this.MoreInformationElement = this.Element.childNodes[0].childNodes[1].childNodes[2];
 
-	this.LoadingCellElement = this.Element.childNodes[2];
+	this.LoadingCellElement = this.Element.childNodes[0].childNodes[2];
 
-	this.ExecutionTimeElement = this.Element.childNodes[3].childNodes[1];
+	this.ExecutionTimeElement = this.Element.childNodes[0].childNodes[3].childNodes[1];
 
-	this.ReloadCellElement = this.Element.childNodes[4];
+	this.ReloadCellElement = this.Element.childNodes[0].childNodes[4];
 
 	this.ReloadCellElement.childNodes[0].addEventListener(
 		"click",
@@ -42,9 +55,9 @@ Overview.Wall.Test = function(id, test) {
 		}
 	);
 
-	this.NextExecutionElement = this.Element.childNodes[5].childNodes[1];
+	this.NextExecutionElement = this.Element.childNodes[0].childNodes[5].childNodes[1];
 
-	this.TimeElapsedElement = this.Element.childNodes[6].childNodes[1];
+	this.TimeElapsedElement = this.Element.childNodes[0].childNodes[6].childNodes[1];
 }
 
 Overview.Wall.Test.LoadHtml = function() {
@@ -58,10 +71,23 @@ Overview.Wall.Test.LoadHtml = function() {
 
 	this.Html.className = "Test";
 
-	this.Html.innerHTML = request.responseText.replace(/\n/g, "");
+	this.Html.innerHTML = request.responseText.replace(/\t/g, "").replace(/\n/g, "");
 }
 
 Overview.Wall.Test.prototype.Update = function(time) {
+	if(this.Test.StatePriorityLevel === "Unknown") {
+		this.Order = 0;
+	}
+	else if(this.Test.StatePriorityLevel === "High") {
+		this.Order = 1;
+	}
+	else if(this.Test.StatePriorityLevel === "Medium") {
+		this.Order = 2;
+	}
+	else if(this.Test.StatePriorityLevel === "Low") {
+		this.Order = 3;
+	}
+
 	this.Update_ExecutionTime(time);
 
 	this.Update_NextExecution(time);
