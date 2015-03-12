@@ -47,9 +47,13 @@ Overview.UpcommingEvents.Update_Sort = function() {
 
 			this.Elements[i - 1] = element;
 
-			this.Elements[i - 1].Element.style.top = (28 + Overview.UpcommingEvents.ElementOffset * i -  Overview.UpcommingEvents.ElementOffset) + "px";
+			this.Elements[i - 1].Element.style.top = (Overview.UpcommingEvents.ElementOffset * i -  Overview.UpcommingEvents.ElementOffset) + "px";
 
-			this.Elements[i].Element.style.top = (28 + Overview.UpcommingEvents.ElementOffset * i) + "px";
+			this.Elements[i - 1].Element.style.zIndex = 1000 - i + 1;
+
+			this.Elements[i].Element.style.top = (Overview.UpcommingEvents.ElementOffset * i) + "px";
+
+			this.Elements[i].Element.style.zIndex = 1000 - i;
 		}
 	}
 }
@@ -72,7 +76,9 @@ Overview.UpcommingEvents.AddTest = function(test) {
 	if(element === null) {
 		element = new Overview.UpcommingEvents.Test(id, test);
 
-		element.Element.style.top = (28 + Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
+		element.Element.style.top = (Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
+
+		element.Element.style.zIndex = 1000 - this.Elements.length;
 
 		this.Elements.push(element);
 	}
@@ -82,6 +88,8 @@ Overview.UpcommingEvents.AddTest = function(test) {
 	if(element.Element.parentNode === null) {
 		this.Element.appendChild(element.Element);
 	}
+
+	this.Element.style.height = (Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
 }
 
 Overview.UpcommingEvents.RemoveTest = function(test) {
@@ -92,4 +100,6 @@ Overview.UpcommingEvents.RemoveTest = function(test) {
 	if(element !== null) {
 		this.Element.removeChild(element.Element);
 	}
+
+	this.Element.style.height = (Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
 }

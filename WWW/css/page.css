@@ -3,6 +3,7 @@ body
 	margin: 0px auto;
 	padding: 16px 0px 0px 0px;
 	background: linear-gradient(to bottom, #404040 0%, #202020 100%);
+	background-attachment: fixed;
 }
 
 
