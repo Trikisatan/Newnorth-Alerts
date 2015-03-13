@@ -79,6 +79,16 @@ Overview.Wall.FindElement = function(id) {
 	return null;
 }
 
+Overview.Wall.FindElementIndex = function(id) {
+	for(var i = 0; i < this.Elements.length; ++i) {
+		if(this.Elements[i].Id === id) {
+			return i;
+		}
+	}
+
+	return null;
+}
+
 Overview.Wall.AddTest = function(test) {
 	var id = "Test-" + test.Id;
 
@@ -106,11 +116,17 @@ Overview.Wall.AddTest = function(test) {
 Overview.Wall.RemoveTest = function(test) {
 	var id = "Test-" + test.Id;
 
-	var element = this.FindElement(id);
+	var elementIndex = this.FindElementIndex(id);
 
-	if(element !== null) {
-		this.Element.removeChild(element.Element);
+	if(elementIndex !== null) {
+		this.Element.removeChild(this.Elements[elementIndex].Element);
+
+		this.Elements.splice(elementIndex, 1);
 	}
 
-	this.Element.style.height = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
+	for(var i = elementIndex; i < this.Elements.length; ++i) {
+		this.Elements[i].Element.style.top = (Overview.Wall.ElementOffset * i) + "px";
+
+		this.Elements[i].Element.style.zIndex = 1000 - i;
+	}
 }
