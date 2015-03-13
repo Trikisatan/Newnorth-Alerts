@@ -38,7 +38,7 @@ Overview.UpcommingEvents.Test.LoadHtml = function() {
 
 	this.Html.className = "Test";
 
-	this.Html.innerHTML = request.responseText.replace(/\t/g, "").replace(/\n/g, "");
+	this.Html.innerHTML = request.responseText.replace(/\t/g, "").replace(/\r/g, "").replace(/\n/g, "");
 }
 
 Overview.UpcommingEvents.Test.prototype.Update = function(time) {

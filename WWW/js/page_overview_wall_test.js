@@ -71,7 +71,7 @@ Overview.Wall.Test.LoadHtml = function() {
 
 	this.Html.className = "Test";
 
-	this.Html.innerHTML = request.responseText.replace(/\t/g, "").replace(/\n/g, "");
+	this.Html.innerHTML = request.responseText.replace(/\t/g, "").replace(/\r/g, "").replace(/\n/g, "");
 }
 
 Overview.Wall.Test.prototype.Update = function(time) {
