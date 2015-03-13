@@ -32,6 +32,7 @@ class TestsPage extends \Framework\Newnorth\Page {
 				'ExecutionInterval' => $Test->ExecutionInterval,
 				'TimeLastExecuted' => $Test->TimeLastExecuted,
 				'ExecutionTimeout' => $Test->ExecutionTimeout,
+				'IsDisabled' => $Test->IsDisabled,
 			];
 		}
 	}

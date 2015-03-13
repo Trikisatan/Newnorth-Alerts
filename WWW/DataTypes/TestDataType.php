@@ -30,6 +30,8 @@ class TestDataType extends DataType {
 
 	public $ExecutionTimeout;
 
+	public $IsDisabled;
+
 	/* Magic methods */
 
 	public function __construct($Data) {
@@ -75,6 +77,10 @@ class TestDataType extends DataType {
 
 		if(isset($Data['ExecutionTimeout'])) {
 			$this->ExecutionTimeout = (int)$Data['ExecutionTimeout'];
+		}
+
+		if(isset($Data['IsDisabled'])) {
+			$this->IsDisabled = $Data['IsDisabled'] === '1';
 		}
 	}
 
@@ -218,6 +224,26 @@ class TestDataType extends DataType {
 		$Connection->Update($Query);
 
 		$this->ExecutionTimeout = $Value;
+	}
+
+ 	public function SetIsDisabled($Value) {
+		$Value = (bool)$Value;
+
+		$Query = new DbUpdateQuery();
+
+		$Query->AddSource('Test');
+
+		$Query->AddChange('`IsDisabled`', $Value);
+
+		$Query->Conditions = new DbAnd();
+
+		$Query->Conditions->EqualTo('`Id`', $this->Id);
+
+		$Connection = Application::GetDbConnection('Default');
+
+		$Connection->Update($Query);
+
+		$this->IsDisabled = $Value;
 	}
 }
 ?>
