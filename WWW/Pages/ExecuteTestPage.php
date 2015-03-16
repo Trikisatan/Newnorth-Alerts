@@ -24,17 +24,12 @@ class ExecuteTestPage extends \Framework\Newnorth\Page {
 		if($this->Test === null) {
 			$this->Data = false;
 		}
-		else if($this->Test->IsExecuting) {
+		else if($this->Test->IsExecuting && time() < $this->Test->TimeLastExecuted + $this->Test->ExecutionTimeout) {
 			$this->Data = false;
 
 			$this->Test = null;
 		}
-		else if(isset($_GET['force'])) {
-			$this->Test->SetIsExecuting(true);
-
-			$this->Test->SetTimeLastExecuted(time());
-		}
-		else if(time() < $this->Test->TimeLastExecuted + $this->Test->ExecutionInterval) {
+		else if(time() < $this->Test->TimeLastExecuted + $this->Test->ExecutionInterval && !isset($_GET['force'])) {
 			$this->Data = false;
 
 			$this->Test = null;

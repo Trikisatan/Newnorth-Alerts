@@ -32,8 +32,11 @@ Update_ExecuteTests = function(time) {
 	for(var i = 0; i < Tests.length; ++i) {
 		var test = Tests[i];
 
-		if(!test.IsExecuting && test.TimeLastExecuted + test.ExecutionInterval < time) {
+		if(!test.IsExecuting && test.TimeLastExecuted + test.ExecutionInterval <= time) {
 			ExecuteTest(Tests[i], false);
+		}
+		else if(test.IsExecuting && test.TimeLastExecuted + test.ExecutionTimeout <= time) {
+			ExecuteTest(Tests[i], true);
 		}
 	}
 }
