@@ -94,20 +94,25 @@ Overview.Wall.AddTest = function(test) {
 
 	var element = this.FindElement(id);
 
-	if(element === null) {
-		element = new Overview.Wall.Test(id, test);
-
-		element.Element.style.top = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
-
-		element.Element.style.zIndex = 1000 - this.Elements.length;
-
-		this.Elements.push(element);
+	if(test.IsDisabled) {
+		this.RemoveTest(test);
 	}
+	else {
+		if(element === null) {
+			element = new Overview.Wall.Test(id, test);
 
-	element.UpdateData();
+			element.Element.style.top = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
 
-	if(element.Element.parentNode === null) {
-		this.Element.appendChild(element.Element);
+			element.Element.style.zIndex = 1000 - this.Elements.length;
+
+			this.Elements.push(element);
+		}
+
+		element.UpdateData();
+
+		if(element.Element.parentNode === null) {
+			this.Element.appendChild(element.Element);
+		}
 	}
 
 	this.Element.style.height = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
