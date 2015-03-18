@@ -63,7 +63,7 @@ Overview.Wall.Test = function(id, test) {
 Overview.Wall.Test.LoadHtml = function() {
 	var request = new XMLHttpRequest();
 
-	request.open("GET", "/js/page_overview_wall_test.html", false);
+	request.open("GET", "/js/page_overview_wall_test.html?" + Math.random(), false);
 
 	request.send(null);
 

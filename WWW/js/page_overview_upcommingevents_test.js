@@ -30,7 +30,7 @@ Overview.UpcommingEvents.Test = function(id, test) {
 Overview.UpcommingEvents.Test.LoadHtml = function() {
 	var request = new XMLHttpRequest();
 
-	request.open("GET", "/js/page_overview_upcommingevents_test.html", false);
+	request.open("GET", "/js/page_overview_upcommingevents_test.html?" + Math.random(), false);
 
 	request.send(null);
 
@@ -75,6 +75,11 @@ Overview.UpcommingEvents.Test.prototype.Update_ExecutionTime = function(time) {
 Overview.UpcommingEvents.Test.prototype.Update_NextExecution = function(time) {
 	if(this.Test.IsExecuting) {
 		this.ReloadCellElement.style.display = "none";
+
+		this.NextExecutionElement.parentNode.style.display = "none";
+	}
+	else if(this.Test.ExecutionInterval <= 300) {
+		this.ReloadCellElement.style.display = "table-cell";
 
 		this.NextExecutionElement.parentNode.style.display = "none";
 	}
