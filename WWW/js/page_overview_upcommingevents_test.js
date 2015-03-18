@@ -3,7 +3,7 @@ Overview.UpcommingEvents.Test = function(id, test) {
 
 	this.Test = test;
 
-	this.Order = (this.Test.IsExecuting ? 0 : this.Test.TimeLastExecuted + this.Test.ExecutionInterval);
+	this.Order = 0xF00000000;
 
 	this.Element = Overview.UpcommingEvents.Test.Html.cloneNode(true);
 
@@ -25,6 +25,8 @@ Overview.UpcommingEvents.Test = function(id, test) {
 	);
 
 	this.NextExecutionElement = this.Element.childNodes[0].childNodes[4].childNodes[1];
+
+	this.LoopedCellElement = this.Element.childNodes[0].childNodes[5];
 }
 
 Overview.UpcommingEvents.Test.LoadHtml = function() {
@@ -42,11 +44,23 @@ Overview.UpcommingEvents.Test.LoadHtml = function() {
 }
 
 Overview.UpcommingEvents.Test.prototype.Update = function(time) {
-	this.Order = (this.Test.IsExecuting ? 0 : this.Test.TimeLastExecuted + this.Test.ExecutionInterval);
+	this.Update_Order(time);
 
 	this.Update_ExecutionTime(time);
 
 	this.Update_NextExecution(time);
+}
+
+Overview.UpcommingEvents.Test.prototype.Update_Order = function(time) {
+	if(this.Test.ExecutionInterval <= 300) {
+		this.Order = 0x100000000;
+	}
+	else if(this.Test.IsExecuting) {
+		this.Order = 0x000000000;
+	}
+	else {
+		this.Order = 0x000000000 + this.Test.TimeLastExecuted + this.Test.ExecutionInterval;
+	}
 }
 
 Overview.UpcommingEvents.Test.prototype.Update_ExecutionTime = function(time) {
@@ -77,11 +91,20 @@ Overview.UpcommingEvents.Test.prototype.Update_NextExecution = function(time) {
 		this.ReloadCellElement.style.display = "none";
 
 		this.NextExecutionElement.parentNode.style.display = "none";
+
+		if(this.Test.ExecutionInterval <= 300) {
+			this.LoopedCellElement.style.display = "table-cell";
+		}
+		else {
+			this.LoopedCellElement.style.display = "none";
+		}
 	}
 	else if(this.Test.ExecutionInterval <= 300) {
 		this.ReloadCellElement.style.display = "table-cell";
 
 		this.NextExecutionElement.parentNode.style.display = "none";
+
+		this.LoopedCellElement.style.display = "table-cell";
 	}
 	else {
 		var nextExecution = Math.max(0, this.Test.TimeLastExecuted + this.Test.ExecutionInterval - time);
@@ -97,6 +120,8 @@ Overview.UpcommingEvents.Test.prototype.Update_NextExecution = function(time) {
 		this.ReloadCellElement.style.display = "table-cell";
 
 		this.NextExecutionElement.parentNode.style.display = "table-cell";
+
+		this.LoopedCellElement.style.display = "none";
 	}
 }
 

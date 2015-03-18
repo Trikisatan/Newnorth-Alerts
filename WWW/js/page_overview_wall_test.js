@@ -3,18 +3,7 @@ Overview.Wall.Test = function(id, test) {
 
 	this.Test = test;
 
-	if(this.Test.StatePriorityLevel === "Unknown") {
-		this.Order = 0;
-	}
-	else if(this.Test.StatePriorityLevel === "High") {
-		this.Order = 1;
-	}
-	else if(this.Test.StatePriorityLevel === "Medium") {
-		this.Order = 2;
-	}
-	else if(this.Test.StatePriorityLevel === "Low") {
-		this.Order = 3;
-	}
+	this.Order = 0xF00000000;
 
 	this.Element = Overview.Wall.Test.Html.cloneNode(true);
 
@@ -57,7 +46,9 @@ Overview.Wall.Test = function(id, test) {
 
 	this.NextExecutionElement = this.Element.childNodes[0].childNodes[5].childNodes[1];
 
-	this.TimeElapsedElement = this.Element.childNodes[0].childNodes[6].childNodes[1];
+	this.LoopedCellElement = this.Element.childNodes[0].childNodes[6];
+
+	this.TimeElapsedElement = this.Element.childNodes[0].childNodes[7].childNodes[1];
 }
 
 Overview.Wall.Test.LoadHtml = function() {
@@ -75,24 +66,28 @@ Overview.Wall.Test.LoadHtml = function() {
 }
 
 Overview.Wall.Test.prototype.Update = function(time) {
-	if(this.Test.StatePriorityLevel === "Unknown") {
-		this.Order = 0;
-	}
-	else if(this.Test.StatePriorityLevel === "High") {
-		this.Order = 1;
-	}
-	else if(this.Test.StatePriorityLevel === "Medium") {
-		this.Order = 2;
-	}
-	else if(this.Test.StatePriorityLevel === "Low") {
-		this.Order = 3;
-	}
+	this.Update_Order(time);
 
 	this.Update_ExecutionTime(time);
 
 	this.Update_NextExecution(time);
 
 	this.Update_TimeElapsed(time);
+}
+
+Overview.Wall.Test.prototype.Update_Order = function(time) {
+	if(this.Test.StatePriorityLevel === "Unknown") {
+		this.Order = 0x000000000 + this.Test.TimeLastFailed;
+	}
+	else if(this.Test.StatePriorityLevel === "High") {
+		this.Order = 0x100000000 + this.Test.TimeLastFailed;
+	}
+	else if(this.Test.StatePriorityLevel === "Medium") {
+		this.Order = 0x200000000 + this.Test.TimeLastFailed;
+	}
+	else if(this.Test.StatePriorityLevel === "Low") {
+		this.Order = 0x300000000 + this.Test.TimeLastFailed;
+	}
 }
 
 Overview.Wall.Test.prototype.Update_ExecutionTime = function(time) {
@@ -123,6 +118,20 @@ Overview.Wall.Test.prototype.Update_NextExecution = function(time) {
 		this.ReloadCellElement.style.display = "none";
 
 		this.NextExecutionElement.parentNode.style.display = "none";
+
+		if(this.Test.ExecutionInterval <= 300) {
+			this.LoopedCellElement.style.display = "table-cell";
+		}
+		else {
+			this.LoopedCellElement.style.display = "none";
+		}
+	}
+	else if(this.Test.ExecutionInterval <= 300) {
+		this.ReloadCellElement.style.display = "table-cell";
+
+		this.NextExecutionElement.parentNode.style.display = "none";
+
+		this.LoopedCellElement.style.display = "table-cell";
 	}
 	else {
 		var nextExecution = Math.max(0, this.Test.TimeLastExecuted + this.Test.ExecutionInterval - time);
@@ -138,6 +147,8 @@ Overview.Wall.Test.prototype.Update_NextExecution = function(time) {
 		this.ReloadCellElement.style.display = "table-cell";
 
 		this.NextExecutionElement.parentNode.style.display = "table-cell";
+
+		this.LoopedCellElement.style.display = "none";
 	}
 }
 
