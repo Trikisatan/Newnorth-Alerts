@@ -68,6 +68,16 @@ Overview.UpcommingEvents.FindElement = function(id) {
 	return null;
 }
 
+Overview.UpcommingEvents.FindElementIndex = function(id) {
+	for(var i = 0; i < this.Elements.length; ++i) {
+		if(this.Elements[i].Id === id) {
+			return i;
+		}
+	}
+
+	return null;
+}
+
 Overview.UpcommingEvents.AddTest = function(test) {
 	var id = "Test-" + test.Id;
 
@@ -100,11 +110,17 @@ Overview.UpcommingEvents.AddTest = function(test) {
 Overview.UpcommingEvents.RemoveTest = function(test) {
 	var id = "Test-" + test.Id;
 
-	var element = this.FindElement(id);
+	var elementIndex = this.FindElementIndex(id);
 
-	if(element !== null) {
-		this.Element.removeChild(element.Element);
+	if(elementIndex !== null) {
+		this.Element.removeChild(this.Elements[elementIndex].Element);
+
+		this.Elements.splice(elementIndex, 1);
 	}
 
-	this.Element.style.height = (Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
+	for(var i = elementIndex; i < this.Elements.length; ++i) {
+		this.Elements[i].Element.style.top = (Overview.UpcommingEvents.ElementOffset * i) + "px";
+
+		this.Elements[i].Element.style.zIndex = 1000 - i;
+	}
 }
