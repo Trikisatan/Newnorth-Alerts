@@ -1,4 +1,10 @@
+ScheduledTasks = [];
+
 Tests = [];
+
+OnScheduledTaskAdded = new Newnorth.Event();
+
+OnScheduledTaskUpdated = new Newnorth.Event();
 
 OnTestAdded = new Newnorth.Event();
 
@@ -13,6 +19,8 @@ Load = function() {
 }
 
 Start = function() {
+	UpdateScheduledTasks();
+
 	UpdateTests();
 
 	Update();
@@ -38,6 +46,72 @@ Update_ExecuteTests = function(time) {
 		else if(test.IsExecuting && test.TimeLastExecuted + test.ExecutionTimeout <= time) {
 			ExecuteTest(Tests[i], true);
 		}
+	}
+}
+
+UpdateScheduledTasks = function() {
+	var request = new XMLHttpRequest();
+
+	request.onreadystatechange = function() {
+		if(this.readyState === 4) {
+			try {
+				var response = JSON.parse(request.responseText);
+
+				for(var i = 0; i < response.length; ++i) {
+					var test = FindScheduledTask(response[i].Id);
+
+					if(test === null) {
+						AddScheduledTask(response[i]);
+					}
+					else {
+						UpdateScheduledTask(test, response[i], false);
+					}
+				}
+			}
+			catch(exception) {
+
+			}
+
+			setTimeout(UpdateScheduledTasks, 1000);
+		}
+	};
+
+	request.open("GET", "/data/scheduled-tasks/", true);
+
+	request.send(null);
+}
+
+FindScheduledTask = function(id) {
+	for(var i = 0; i < ScheduledTasks.length; ++i) {
+		if(ScheduledTasks[i].Id === id) {
+			return ScheduledTasks[i];
+		}
+	}
+
+	return null;
+}
+
+AddScheduledTask = function(scheduledTask) {
+	ScheduledTasks.push(scheduledTask);
+
+	OnScheduledTaskAdded.Invoke(null, scheduledTask);
+}
+
+UpdateScheduledTask = function(scheduledTask, data, isPreUpdated) {
+	var state = scheduledTask.State;
+
+	var isUpdated = isPreUpdated;
+
+	for(var key in data) {
+		if(scheduledTask[key] !== data[key]) {
+			scheduledTask[key] = data[key];
+
+			isUpdated = true;
+		}
+	}
+
+	if(isUpdated) {
+		OnScheduledTaskUpdated.Invoke(null, scheduledTask);
 	}
 }
 

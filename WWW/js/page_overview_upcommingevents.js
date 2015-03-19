@@ -13,6 +13,22 @@ Overview.UpcommingEvents.Elements = [];
 Overview.UpcommingEvents.Load = function() {
 	this.Element = document.getElementById("UpcommingEvents");
 
+	this.ScheduledTask.LoadHtml();
+
+	OnScheduledTaskAdded.AddListener(
+		this,
+		function(invoker, data) {
+			Overview.UpcommingEvents.AddScheduledTask(data);
+		}
+	);
+
+	OnScheduledTaskUpdated.AddListener(
+		this,
+		function(invoker, data) {
+			Overview.UpcommingEvents.AddScheduledTask(data);
+		}
+	);
+
 	this.Test.LoadHtml();
 
 	OnTestAdded.AddListener(
@@ -78,6 +94,53 @@ Overview.UpcommingEvents.FindElementIndex = function(id) {
 	return null;
 }
 
+Overview.UpcommingEvents.AddScheduledTask = function(scheduledTask) {
+	var id = "ScheduledTask-" + scheduledTask.Id;
+
+	var element = this.FindElement(id);
+
+	if(scheduledTask.IsDisabled) {
+		this.RemoveScheduledTask(scheduledTask);
+	}
+	else {
+		if(element === null) {
+			element = new Overview.UpcommingEvents.ScheduledTask(id, scheduledTask);
+
+			element.Element.style.top = (Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
+
+			element.Element.style.zIndex = 1000 - this.Elements.length;
+
+			this.Elements.push(element);
+		}
+
+		element.UpdateData();
+
+		if(element.Element.parentNode === null) {
+			this.Element.appendChild(element.Element);
+		}
+	}
+
+	this.Element.style.height = (Overview.UpcommingEvents.ElementOffset * this.Elements.length) + "px";
+}
+
+Overview.UpcommingEvents.RemoveScheduledTask = function(scheduledTask) {
+	var id = "ScheduledTask-" + scheduledTask.Id;
+
+	var elementIndex = this.FindElementIndex(id);
+
+	if(elementIndex !== null) {
+		this.Element.removeChild(this.Elements[elementIndex].Element);
+
+		this.Elements.splice(elementIndex, 1);
+
+		for(var i = elementIndex; i < this.Elements.length; ++i) {
+			this.Elements[i].Element.style.top = (Overview.UpcommingEvents.ElementOffset * i) + "px";
+
+			this.Elements[i].Element.style.zIndex = 1000 - i;
+		}
+	}
+}
+
 Overview.UpcommingEvents.AddTest = function(test) {
 	var id = "Test-" + test.Id;
 
@@ -116,11 +179,11 @@ Overview.UpcommingEvents.RemoveTest = function(test) {
 		this.Element.removeChild(this.Elements[elementIndex].Element);
 
 		this.Elements.splice(elementIndex, 1);
-	}
 
-	for(var i = elementIndex; i < this.Elements.length; ++i) {
-		this.Elements[i].Element.style.top = (Overview.UpcommingEvents.ElementOffset * i) + "px";
+		for(var i = elementIndex; i < this.Elements.length; ++i) {
+			this.Elements[i].Element.style.top = (Overview.UpcommingEvents.ElementOffset * i) + "px";
 
-		this.Elements[i].Element.style.zIndex = 1000 - i;
+			this.Elements[i].Element.style.zIndex = 1000 - i;
+		}
 	}
 }

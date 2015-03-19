@@ -11,11 +11,15 @@ class ScheduledTaskDataType extends DataType {
 
 	public $Title;
 
-	public $PlannedInterval;
+	public $IsExecuting;
 
-	public $MaxInterval;
+	public $PlannedExecutionInterval;
 
-	public $TimeExecuted;
+	public $MaxExecutionInterval;
+
+	public $TimeLastExecuted;
+
+	public $IsDisabled;
 
 	/* Magic methods */
 
@@ -25,23 +29,31 @@ class ScheduledTaskDataType extends DataType {
 		}
 
 		if(isset($Data['PriorityLevel'])) {
-			$this->PriorityLevel = (int)$Data['PriorityLevel'];
+			$this->PriorityLevel = $Data['PriorityLevel'];
 		}
 
 		if(isset($Data['Title'])) {
 			$this->Title = $Data['Title'];
 		}
 
-		if(isset($Data['PlannedInterval'])) {
-			$this->PlannedInterval = (int)$Data['PlannedInterval'];
+		if(isset($Data['IsExecuting'])) {
+			$this->IsExecuting = $Data['IsExecuting'] === '1';
 		}
 
-		if(isset($Data['MaxInterval'])) {
-			$this->MaxInterval = (int)$Data['MaxInterval'];
+		if(isset($Data['TimeFirstExecuted'])) {
+			$this->TimeFirstExecuted = (int)$Data['TimeFirstExecuted'];
 		}
 
-		if(isset($Data['TimeExecuted'])) {
-			$this->TimeExecuted = (int)$Data['TimeExecuted'];
+		if(isset($Data['ExecutionInterval'])) {
+			$this->ExecutionInterval = (int)$Data['ExecutionInterval'];
+		}
+
+		if(isset($Data['TimeLastExecuted'])) {
+			$this->TimeLastExecuted = (int)$Data['TimeLastExecuted'];
+		}
+
+		if(isset($Data['IsDisabled'])) {
+			$this->IsDisabled = $Data['IsDisabled'] === '1';
 		}
 	}
 }

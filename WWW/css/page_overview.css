@@ -31,46 +31,46 @@
 	position: relative;
 }
 
-#Wall>.Test>div>.HighPriority,
-#Wall>.Test>div>.MediumPriority,
-#Wall>.Test>div>.LowPriority,
-#Wall>.Test>div>.UnknownPriority
+#Wall>*>div>.HighPriority,
+#Wall>*>div>.MediumPriority,
+#Wall>*>div>.LowPriority,
+#Wall>*>div>.UnknownPriority
 {
 	width: 16px;
 	min-width: 16px;
 }
 
-#Wall>.Test>div>.HighPriority
+#Wall>*>div>.HighPriority
 {
 	background: linear-gradient(to bottom, #a00000 0px, #800000 48px);
 	border-color: #c00000 #800000 #800000 #a00000;
 }
 
-#Wall>.Test>div>.MediumPriority
+#Wall>*>div>.MediumPriority
 {
 	background: linear-gradient(to bottom, #c06000 0px, #804000 48px);
 	border-color: #c06000 #804000 #804000 #c06000;
 }
 
-#Wall>.Test>div>.LowPriority
+#Wall>*>div>.LowPriority
 {
 	background: linear-gradient(to bottom, #e0e000 0px, #c0c000 48px);
 	border-color: #e0e000 #c0c000 #c0c000 #e0e000;
 }
 
-#Wall>.Test>div>.UnknownPriority
+#Wall>*>div>.UnknownPriority
 {
 	background: linear-gradient(to bottom, #202020 0px, #000000 48px);
 	border-color: #404040 #000000 #000000 #404040;
 }
 
-#Wall>.Test>div>.Information
+#Wall>*>div>.Information
 {
 	padding: 8px 16px;
 	overflow: hidden;
 }
 
-#Wall>.Test>div>.Information>b
+#Wall>*>div>.Information>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -82,7 +82,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>div>.Information>span
+#Wall>*>div>.Information>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -95,7 +95,7 @@
 	transition: height 0.2s;
 }
 
-#Wall>.Test>div>.Information>.More
+#Wall>*>div>.Information>.More
 {
 	opacity: 1.0;
 	margin-left: -8px;
@@ -106,7 +106,7 @@
 	transition: opacity 0.2s;
 }
 
-#Wall>.Test>div>.Loading
+#Wall>*>div>.Loading
 {
 	padding: 18px 24px 19px 24px;
 	text-align: center;
@@ -114,7 +114,7 @@
 	min-width: 66px;
 }
 
-#Wall>.Test>div>.ExecutionTime
+#Wall>*>div>.ExecutionTime
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -122,7 +122,7 @@
 	min-width: 120px;
 }
 
-#Wall>.Test>div>.ExecutionTime>span
+#Wall>*>div>.ExecutionTime>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -132,7 +132,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>div>.ExecutionTime>b
+#Wall>*>div>.ExecutionTime>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -144,7 +144,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>div>.Reload
+#Wall>*>div>.Reload
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -152,12 +152,12 @@
 	min-width: 66px;
 }
 
-#Wall>.Test>div>.Reload>img
+#Wall>*>div>.Reload>img
 {
 	cursor: pointer;
 }
 
-#Wall>.Test>div>.NextExecution
+#Wall>*>div>.NextExecution
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -165,7 +165,7 @@
 	min-width: 120px;
 }
 
-#Wall>.Test>div>.NextExecution>span
+#Wall>*>div>.NextExecution>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -175,7 +175,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>div>.NextExecution>b
+#Wall>*>div>.NextExecution>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -187,7 +187,12 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>div>.Looped
+#Wall>*>div>.NextExecution>b.IsLate
+{
+	color: #c00000;
+}
+
+#Wall>*>div>.Looped
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -195,7 +200,7 @@
 	min-width: 66px;
 }
 
-#Wall>.Test>div>.TimeElapsed
+#Wall>*>div>.TimeElapsed
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -203,7 +208,7 @@
 	min-width: 120px;
 }
 
-#Wall>.Test>div>.TimeElapsed>span
+#Wall>*>div>.TimeElapsed>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -213,7 +218,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>div>.TimeElapsed>b
+#Wall>*>div>.TimeElapsed>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -225,7 +230,7 @@
 	white-space: nowrap;
 }
 
-#Wall>.Test>div:hover>.Information>.More
+#Wall>*>div:hover>.Information>.More
 {
 	opacity: 0.0;
 }
@@ -263,13 +268,13 @@
 	position: relative;
 }
 
-#UpcommingEvents>.Test>div>.Information
+#UpcommingEvents>*>div>.Information
 {
 	padding: 8px 16px;
 	overflow: hidden;
 }
 
-#UpcommingEvents>.Test>div>.Information>b
+#UpcommingEvents>*>div>.Information>b
 {
 	display: inline-block;
 	color: #e0e0e0;
@@ -281,7 +286,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>div>.Loading
+#UpcommingEvents>*>div>.Loading
 {
 	padding: 18px 24px 19px 24px;
 	text-align: center;
@@ -289,7 +294,7 @@
 	min-width: 66px;
 }
 
-#UpcommingEvents>.Test>div>.ExecutionTime
+#UpcommingEvents>*>div>.ExecutionTime
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -297,7 +302,7 @@
 	min-width: 120px;
 }
 
-#UpcommingEvents>.Test>div>.ExecutionTime>span
+#UpcommingEvents>*>div>.ExecutionTime>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -307,7 +312,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>div>.ExecutionTime>b
+#UpcommingEvents>*>div>.ExecutionTime>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -319,7 +324,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>div>.Reload
+#UpcommingEvents>*>div>.Reload
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -327,12 +332,12 @@
 	min-width: 66px;
 }
 
-#UpcommingEvents>.Test>div>.Reload>img
+#UpcommingEvents>*>div>.Reload>img
 {
 	cursor: pointer;
 }
 
-#UpcommingEvents>.Test>div>.NextExecution
+#UpcommingEvents>*>div>.NextExecution
 {
 	padding: 8px 16px;
 	text-align: center;
@@ -340,7 +345,7 @@
 	min-width: 120px;
 }
 
-#UpcommingEvents>.Test>div>.NextExecution>span
+#UpcommingEvents>*>div>.NextExecution>span
 {
 	display: block;
 	color: #a0a0a0;
@@ -350,7 +355,7 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>div>.NextExecution>b
+#UpcommingEvents>*>div>.NextExecution>b
 {
 	display: block;
 	color: #e0e0e0;
@@ -362,7 +367,12 @@
 	white-space: nowrap;
 }
 
-#UpcommingEvents>.Test>div>.Looped
+#UpcommingEvents>*>div>.NextExecution>b.IsLate
+{
+	color: #c00000;
+}
+
+#UpcommingEvents>*>div>.Looped
 {
 	padding: 8px 16px;
 	text-align: center;

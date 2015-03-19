@@ -11,7 +11,7 @@ class ScheduledTasksPage extends \Framework\Newnorth\Page {
 	/* Life cycle methods */
 
 	public function Initialize() {
-		
+
 	}
 
 	public function Load() {
@@ -20,19 +20,27 @@ class ScheduledTasksPage extends \Framework\Newnorth\Page {
 		$ScheduledTasks = $ScheduledTaskDataManager->FindAll();
 
 		foreach($ScheduledTasks as $ScheduledTask) {
+			$TimeNextExecution = $ScheduledTask->TimeFirstExecuted + floor(($ScheduledTask->TimeLastExecuted - $ScheduledTask->TimeFirstExecuted) / $ScheduledTask->ExecutionInterval + 1) * $ScheduledTask->ExecutionInterval;
+
+			$TimeUntilNextExecution = $TimeNextExecution - time();
+
 			$this->Data[] = [
 				'Id' => $ScheduledTask->Id,
 				'PriorityLevel' => $ScheduledTask->PriorityLevel,
 				'Title' => $ScheduledTask->Title,
-				'PlannedInterval' => $ScheduledTask->PlannedInterval,
-				'MaxInterval' => $ScheduledTask->MaxInterval,
-				'TimeExecuted' => $ScheduledTask->TimeExecuted,
+				'IsExecuting' => $ScheduledTask->IsExecuting,
+				'TimeFirstExecuted' => $ScheduledTask->TimeFirstExecuted,
+				'ExecutionInterval' => $ScheduledTask->ExecutionInterval,
+				'TimeLastExecuted' => $ScheduledTask->TimeLastExecuted,
+				'TimeNextExecution' => $TimeNextExecution,
+				'TimeUntilNextExecution' => $TimeUntilNextExecution,
+				'IsDisabled' => $ScheduledTask->IsDisabled,
 			];
 		}
 	}
 
 	public function Execute() {
-		
+
 	}
 }
 ?>

@@ -13,6 +13,29 @@ Overview.Wall.Elements = [];
 Overview.Wall.Load = function() {
 	this.Element = document.getElementById("Wall");
 
+	this.ScheduledTask.LoadHtml();
+
+	OnScheduledTaskAdded.AddListener(
+		this,
+		function(invoker, data) {
+			if(data.TimeUntilNextExecution < 0) {
+				Overview.Wall.AddScheduledTask(data);
+			}
+		}
+	);
+
+	OnScheduledTaskUpdated.AddListener(
+		this,
+		function(invoker, data) {
+			if(data.TimeUntilNextExecution < 0) {
+				Overview.Wall.AddScheduledTask(data);
+			}
+			else {
+				Overview.Wall.RemoveScheduledTask(data);
+			}
+		}
+	);
+
 	this.Test.LoadHtml();
 
 	OnTestAdded.AddListener(
@@ -30,13 +53,9 @@ Overview.Wall.Load = function() {
 			if(data.State === "FAILED") {
 				Overview.Wall.AddTest(data);
 			}
-		}
-	);
-
-	OnTestStateChangedToOK.AddListener(
-		this,
-		function(invoker, data) {
-			Overview.Wall.RemoveTest(data.Test);
+			else {
+				Overview.Wall.RemoveTest(data);
+			}
 		}
 	);
 }
@@ -89,6 +108,53 @@ Overview.Wall.FindElementIndex = function(id) {
 	return null;
 }
 
+Overview.Wall.AddScheduledTask = function(scheduledTask) {
+	var id = "ScheduledTask-" + scheduledTask.Id;
+
+	var element = this.FindElement(id);
+
+	if(scheduledTask.IsDisabled) {
+		this.RemoveScheduledTask(scheduledTask);
+	}
+	else {
+		if(element === null) {
+			element = new Overview.Wall.ScheduledTask(id, scheduledTask);
+
+			element.Element.style.top = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
+
+			element.Element.style.zIndex = 1000 - this.Elements.length;
+
+			this.Elements.push(element);
+		}
+
+		element.UpdateData();
+
+		if(element.Element.parentNode === null) {
+			this.Element.appendChild(element.Element);
+		}
+	}
+
+	this.Element.style.height = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
+}
+
+Overview.Wall.RemoveScheduledTask = function(scheduledTask) {
+	var id = "ScheduledTask-" + scheduledTask.Id;
+
+	var elementIndex = this.FindElementIndex(id);
+
+	if(elementIndex !== null) {
+		this.Element.removeChild(this.Elements[elementIndex].Element);
+
+		this.Elements.splice(elementIndex, 1);
+
+		for(var i = elementIndex; i < this.Elements.length; ++i) {
+			this.Elements[i].Element.style.top = (Overview.Wall.ElementOffset * i) + "px";
+
+			this.Elements[i].Element.style.zIndex = 1000 - i;
+		}
+	}
+}
+
 Overview.Wall.AddTest = function(test) {
 	var id = "Test-" + test.Id;
 
@@ -127,11 +193,11 @@ Overview.Wall.RemoveTest = function(test) {
 		this.Element.removeChild(this.Elements[elementIndex].Element);
 
 		this.Elements.splice(elementIndex, 1);
-	}
 
-	for(var i = elementIndex; i < this.Elements.length; ++i) {
-		this.Elements[i].Element.style.top = (Overview.Wall.ElementOffset * i) + "px";
+		for(var i = elementIndex; i < this.Elements.length; ++i) {
+			this.Elements[i].Element.style.top = (Overview.Wall.ElementOffset * i) + "px";
 
-		this.Elements[i].Element.style.zIndex = 1000 - i;
+			this.Elements[i].Element.style.zIndex = 1000 - i;
+		}
 	}
 }
