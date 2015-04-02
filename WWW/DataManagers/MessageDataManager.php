@@ -3,7 +3,7 @@ use \Framework\Newnorth\Application;
 use \Framework\Newnorth\DataManager;
 use \Framework\Newnorth\DbSelectQuery;
 use \Framework\Newnorth\DbAnd;
-use \Framework\Newnorth\DbEqualTo;	
+use \Framework\Newnorth\DbEqualTo;
 
 class MessageDataManager extends DataManager {
 	/* Magic methods */

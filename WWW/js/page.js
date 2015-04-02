@@ -2,6 +2,8 @@ ScheduledTasks = [];
 
 Tests = [];
 
+UnhandledMessages = [];
+
 OnScheduledTaskAdded = new Newnorth.Event();
 
 OnScheduledTaskUpdated = new Newnorth.Event();
@@ -14,6 +16,10 @@ OnTestStateChangedToOK = new Newnorth.Event();
 
 OnTestStateChangedToFAILED = new Newnorth.Event();
 
+OnUnhandledMessageAdded = new Newnorth.Event();
+
+OnUnhandledMessageUpdated = new Newnorth.Event();
+
 Load = function() {
 	Overview.Load();
 }
@@ -22,6 +28,8 @@ Start = function() {
 	UpdateScheduledTasks();
 
 	UpdateTests();
+
+	UpdateUnhandledMessages();
 
 	Update();
 }
@@ -217,6 +225,72 @@ ExecuteTest = function(test, force) {
 	request.open("GET", "/execute-test/" + test.Id + "/" + (force ? "?force" : ""), true);
 
 	request.send(null);
+}
+
+UpdateUnhandledMessages = function() {
+	var request = new XMLHttpRequest();
+
+	request.onreadystatechange = function() {
+		if(this.readyState === 4) {
+			try {
+				var response = JSON.parse(request.responseText);
+
+				for(var i = 0; i < response.length; ++i) {
+					var test = FindUnhandledMessage(response[i].Id);
+
+					if(test === null) {
+						AddUnhandledMessage(response[i]);
+					}
+					else {
+						UpdateUnhandledMessage(test, response[i], false);
+					}
+				}
+			}
+			catch(exception) {
+
+			}
+
+			setTimeout(UpdateUnhandledMessages, 1000);
+		}
+	};
+
+	request.open("GET", "/data/unhandled-messages/", true);
+
+	request.send(null);
+}
+
+FindUnhandledMessage = function(id) {
+	for(var i = 0; i < UnhandledMessages.length; ++i) {
+		if(UnhandledMessages[i].Id === id) {
+			return UnhandledMessages[i];
+		}
+	}
+
+	return null;
+}
+
+AddUnhandledMessage = function(unhandledMessage) {
+	UnhandledMessages.push(unhandledMessage);
+
+	OnUnhandledMessageAdded.Invoke(null, unhandledMessage);
+}
+
+UpdateUnhandledMessage = function(unhandledMessage, data, isPreUpdated) {
+	var state = unhandledMessage.State;
+
+	var isUpdated = isPreUpdated;
+
+	for(var key in data) {
+		if(unhandledMessage[key] !== data[key]) {
+			unhandledMessage[key] = data[key];
+
+			isUpdated = true;
+		}
+	}
+
+	if(isUpdated) {
+		OnUnhandledMessageUpdated.Invoke(null, unhandledMessage);
+	}
 }
 
 window.addEventListener(

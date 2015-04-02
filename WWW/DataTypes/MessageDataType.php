@@ -27,7 +27,7 @@ class MessageDataType extends DataType {
 		}
 
 		if(isset($Data['PriorityLevel'])) {
-			$this->PriorityLevel = (int)$Data['PriorityLevel'];
+			$this->PriorityLevel = $Data['PriorityLevel'];
 		}
 
 		if(isset($Data['Key'])) {

@@ -58,6 +58,29 @@ Overview.Wall.Load = function() {
 			}
 		}
 	);
+
+	this.UnhandledMessage.LoadHtml();
+
+	OnUnhandledMessageAdded.AddListener(
+		this,
+		function(invoker, data) {
+			if(data.TimeSolved === 0) {
+				Overview.Wall.AddUnhandledMessage(data);
+			}
+		}
+	);
+
+	OnUnhandledMessageUpdated.AddListener(
+		this,
+		function(invoker, data) {
+			if(data.TimeSolved === 0) {
+				Overview.Wall.AddUnhandledMessage(data);
+			}
+			else {
+				Overview.Wall.RemoveUnhandledMessage(data);
+			}
+		}
+	);
 }
 
 Overview.Wall.Update = function(time) {
@@ -186,6 +209,53 @@ Overview.Wall.AddTest = function(test) {
 
 Overview.Wall.RemoveTest = function(test) {
 	var id = "Test-" + test.Id;
+
+	var elementIndex = this.FindElementIndex(id);
+
+	if(elementIndex !== null) {
+		this.Element.removeChild(this.Elements[elementIndex].Element);
+
+		this.Elements.splice(elementIndex, 1);
+
+		for(var i = elementIndex; i < this.Elements.length; ++i) {
+			this.Elements[i].Element.style.top = (Overview.Wall.ElementOffset * i) + "px";
+
+			this.Elements[i].Element.style.zIndex = 1000 - i;
+		}
+	}
+}
+
+Overview.Wall.AddUnhandledMessage = function(unhandledMessage) {
+	var id = "UnhandledMessage-" + unhandledMessage.Id;
+
+	var element = this.FindElement(id);
+
+	if(unhandledMessage.IsDisabled) {
+		this.RemoveUnhandledMessage(unhandledMessage);
+	}
+	else {
+		if(element === null) {
+			element = new Overview.Wall.UnhandledMessage(id, unhandledMessage);
+
+			element.Element.style.top = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
+
+			element.Element.style.zIndex = 1000 - this.Elements.length;
+
+			this.Elements.push(element);
+		}
+
+		element.UpdateData();
+
+		if(element.Element.parentNode === null) {
+			this.Element.appendChild(element.Element);
+		}
+	}
+
+	this.Element.style.height = (Overview.Wall.ElementOffset * this.Elements.length) + "px";
+}
+
+Overview.Wall.RemoveUnhandledMessage = function(unhandledMessage) {
+	var id = "UnhandledMessage-" + unhandledMessage.Id;
 
 	var elementIndex = this.FindElementIndex(id);
 
