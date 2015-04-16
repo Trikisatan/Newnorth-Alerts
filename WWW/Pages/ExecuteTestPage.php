@@ -93,6 +93,10 @@ class ExecuteTestPage extends \Framework\Newnorth\Page {
 
 					$this->Test->SetTimeLastFailed(time());
 				}
+
+				$TestFailureDataManager = $GLOBALS['Application']->GetDataManager('TestFailure');
+
+				$TestFailureDataManager->Insert($GLOBALS['Parameters']['TestId']);
 			}
 			else {
 				$this->Test->SetState('OK');
