@@ -96,7 +96,11 @@ class ExecuteTestPage extends \Framework\Newnorth\Page {
 
 				$TestFailureDataManager = $GLOBALS['Application']->GetDataManager('TestFailure');
 
-				$TestFailureDataManager->Insert($GLOBALS['Parameters']['TestId']);
+				$TestFailure = $TestFailureDataManager->Insert($GLOBALS['Parameters']['TestId']);
+
+				$TestFailureStateDataManager = $GLOBALS['Application']->GetDataManager('TestFailureState');
+
+				$TestFailureStateDataManager->Insert($TestFailure->Id, $GLOBALS['Parameters']['TestId'], $this->Test->StatePriorityLevel, $this->Test->StateDescription);
 			}
 			else {
 				$this->Test->SetState('OK');
