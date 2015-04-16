@@ -100,6 +100,12 @@ class ExecuteTestPage extends \Framework\Newnorth\Page {
 			}
 			else {
 				$this->Test->SetState('OK');
+
+				$TestFailureDataManager = $GLOBALS['Application']->GetDataManager('TestFailure');
+
+				$TestFailure = $TestFailureDataManager->FindUnsolvedByTestId($GLOBALS['Parameters']['TestId']);
+
+				$TestFailure->SetTimeSolved(time());
 			}
 
 			$this->Test->SetIsExecuting(false);

@@ -1,8 +1,5 @@
 <?
-use \Framework\Newnorth\Application;
-use \Framework\Newnorth\DataType;
-
-class TestFailureDataType extends DataType {
+class TestFailureDataType extends \Framework\Newnorth\DataType {
 	/* Variables */
 
 	public $Id;
@@ -30,6 +27,28 @@ class TestFailureDataType extends DataType {
 
 		if(isset($Data['TimeSolved'])) {
 			$this->TimeSolved = (int)$Data['TimeSolved'];
+		}
+	}
+
+	/* Methods */
+
+ 	public function SetTimeSolved($Value) {
+		$Value = (int)$Value;
+
+		if($this->TimeSolved !== $Value) {
+			$Query = new \Framework\Newnorth\DbUpdateQuery();
+
+			$Query->AddSource('TestFailure');
+
+			$Query->AddChange('`TimeSolved`', $Value);
+
+			$Query->Conditions = new \Framework\Newnorth\DbEqualTo('`Id`', $this->Id);
+
+			$Connection = \Framework\Newnorth\Application::GetDbConnection('Default');
+
+			$Connection->Update($Query);
+
+			$this->TimeSolved = $Value;
 		}
 	}
 }
