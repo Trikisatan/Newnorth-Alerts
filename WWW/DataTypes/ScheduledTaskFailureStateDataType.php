@@ -1,12 +1,12 @@
 <?
-class TestFailureStateDataType extends \Framework\Newnorth\DataType {
+class ScheduledTaskFailureStateDataType extends \Framework\Newnorth\DataType {
 	/* Variables */
 
 	public $Id;
 
-	public $TestFailureId;
+	public $ScheduledTaskFailureId;
 
-	public $TestId;
+	public $ScheduledTaskId;
 
 	public $PriorityLevel;
 
@@ -23,12 +23,12 @@ class TestFailureStateDataType extends \Framework\Newnorth\DataType {
 			$this->Id = (int)$Data['Id'];
 		}
 
-		if(isset($Data['TestFailureId'])) {
-			$this->TestFailureId = (int)$Data['TestFailureId'];
+		if(isset($Data['ScheduledTaskFailureId'])) {
+			$this->ScheduledTaskFailureId = (int)$Data['ScheduledTaskFailureId'];
 		}
 
-		if(isset($Data['TestId'])) {
-			$this->TestId = (int)$Data['TestId'];
+		if(isset($Data['ScheduledTaskId'])) {
+			$this->ScheduledTaskId = (int)$Data['ScheduledTaskId'];
 		}
 
 		if(isset($Data['PriorityLevel'])) {
