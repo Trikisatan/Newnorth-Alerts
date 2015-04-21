@@ -24,6 +24,14 @@ class ScheduledTasksPage extends \Framework\Newnorth\Page {
 
 			$TimeUntilNextExecution = $TimeNextExecution - time();
 
+			$ScheduledTaskFailureDataManager = $GLOBALS['Application']->GetDataManager('ScheduledTaskFailure');
+
+			$ScheduledTaskFailure = $ScheduledTaskFailureDataManager->FindUnsolvedByScheduledTaskId($ScheduledTask->Id);
+
+			if($ScheduledTaskFailure === null && !$ScheduledTask->IsDisabled && 0 > $TimeUntilNextExecution) {
+				$ScheduledTaskFailureDataManager->Insert($ScheduledTask->Id);
+			}
+
 			$this->Data[] = [
 				'Id' => $ScheduledTask->Id,
 				'PriorityLevel' => $ScheduledTask->PriorityLevel,
