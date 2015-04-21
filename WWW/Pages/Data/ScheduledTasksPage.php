@@ -28,8 +28,15 @@ class ScheduledTasksPage extends \Framework\Newnorth\Page {
 
 			$ScheduledTaskFailure = $ScheduledTaskFailureDataManager->FindUnsolvedByScheduledTaskId($ScheduledTask->Id);
 
-			if($ScheduledTaskFailure === null && !$ScheduledTask->IsDisabled && 0 > $TimeUntilNextExecution) {
-				$ScheduledTaskFailureDataManager->Insert($ScheduledTask->Id);
+			if($ScheduledTaskFailure === null){
+				if(!$ScheduledTask->IsDisabled && $TimeUntilNextExecution < 0) {
+					$ScheduledTaskFailureDataManager->Insert($ScheduledTask->Id);
+				}
+			}
+			else {
+				if(!$ScheduledTask->IsDisabled && 0 < $TimeUntilNextExecution) {
+					$ScheduledTaskFailure->SetTimeSolved(time());
+				}
 			}
 
 			$this->Data[] = [

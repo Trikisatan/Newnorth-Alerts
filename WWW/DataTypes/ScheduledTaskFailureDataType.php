@@ -38,7 +38,7 @@ class ScheduledTaskFailureDataType extends \Framework\Newnorth\DataType {
 		if($this->TimeSolved !== $Value) {
 			$Query = new \Framework\Newnorth\DbUpdateQuery();
 
-			$Query->AddSource('ScheduledTaskId');
+			$Query->AddSource('ScheduledTaskFailure');
 
 			$Query->AddChange('`TimeSolved`', $Value);
 
